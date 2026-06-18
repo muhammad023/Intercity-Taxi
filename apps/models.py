@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.db.models import CharField, DecimalField, Model, CASCADE, ForeignKey, ImageField, TextField, DateTimeField, \
-    IntegerField, SmallIntegerField, EmailField
+    IntegerField, SmallIntegerField, EmailField , BooleanField, FloatField
 
 
 class CustomUserManager(UserManager):
@@ -59,7 +59,14 @@ class User(AbstractUser):
     language = CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     email = EmailField()
-# Hello
+
+
+class City(Model):
+    name = CharField(max_length=50)
+    viloyat = CharField(max_length=50)
+    latitude = DecimalField(max_digits=9, decimal_places=6)
+    longitude = DecimalField(max_digits=9, decimal_places=6)
+
 
 
 class Driver(Model):
@@ -71,20 +78,6 @@ class Driver(Model):
     prava_confirm = BooleanField()
     reyting = FloatField()
     travel_count = SmallIntegerField(blank=True, null=True, default=0)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class Booking(AbstractUser):
