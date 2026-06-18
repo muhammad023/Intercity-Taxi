@@ -96,7 +96,6 @@ class Driver(Model):
 
 
 class Booking(Model):
-    id = models.AutoField(primary_key=True)
     route = ForeignKey('apps.Route' , on_delete=CASCADE)
     passenger = ForeignKey('apps.User' , on_delete=CASCADE)
     seats_number = models.SmallIntegerField()
@@ -107,7 +106,6 @@ class Booking(Model):
 
 
 class Review(Model):
-    id = models.AutoField(primary_key=True)
     booking = ForeignKey('apps.Booking' , on_delete=CASCADE)
     reviewer = ForeignKey('apps.User' , on_delete=CASCADE)
     reviewed = ForeignKey('apps.Driver' , on_delete=CASCADE)
