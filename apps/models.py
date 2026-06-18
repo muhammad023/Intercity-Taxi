@@ -103,8 +103,6 @@ class Booking(Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-
-
 class Review(Model):
     booking = ForeignKey('apps.Booking' , on_delete=CASCADE)
     reviewer = ForeignKey('apps.User' , on_delete=CASCADE)
