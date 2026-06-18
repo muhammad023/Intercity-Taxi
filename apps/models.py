@@ -97,7 +97,7 @@ class Driver(Model):
 
 class Booking(AbstractUser):
     id = models.AutoField(primary_key=True)
-    route = ForeignKey('apps.' , on_delete=CASCADE)
+    route = ForeignKey('apps.Route' , on_delete=CASCADE)
     passenger = ForeignKey('apps.User' , on_delete=CASCADE)
     seats_number = models.SmallIntegerField(max_length=12)
     status = models.CharField(max_length=50)
