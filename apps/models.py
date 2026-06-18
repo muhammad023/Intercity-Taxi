@@ -59,6 +59,13 @@ class User(AbstractUser):
     language = CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     email = EmailField()
+
+
+class City(Model):
+    name = CharField(max_length=50)
+    viloyat = CharField(max_length=50)
+    latitude = DecimalField(max_digits=9, decimal_places=6)
+    longitude = DecimalField(max_digits=9, decimal_places=6)
 # Hello
 
 
@@ -71,8 +78,6 @@ class Driver(Model):
     prava_confirm = BooleanField()
     reyting = FloatField()
     travel_count = SmallIntegerField(blank=True, null=True, default=0)
-
-
 
 
 
