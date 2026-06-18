@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin panel | Yo'lda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1A2E35;
+            --ink-soft: #4A5C63;
+            --paper: #FFFFFF;
+            --cream: #F7F4ED;
+            --orange: #FF6B35;
+            --orange-deep: #E85A2A;
+            --sky: #2D9CDB;
+            --sky-deep: #2387BE;
+            --green: #27AE60;
+            --red: #E0524C;
+            --amber: #B8740A;
+            --line: #E7E2D6;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --shadow: 0 8px 24px rgba(26, 46, 53, 0.08);
+            --shadow-lift: 0 16px 40px rgba(26, 46, 53, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background: var(--cream);
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--sky);
+            outline-offset: 2px;
+        }
+
+        .admin-shell {
+            display: grid;
+            grid-template-columns:240px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--ink);
+            color: #C7D2D6;
+            padding: 24px 18px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: white;
+            padding: 0 8px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar .logo .mark {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-deep));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85rem;
+        }
+
+        .nav-section-lbl {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #6E8088;
+            padding: 0 10px;
+            margin: 18px 0 10px;
+        }
+
+        .sidebar a, .sidebar .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 12px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 3px;
+            cursor: pointer;
+            color: #C7D2D6;
+        }
+
+        .sidebar .nav-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar .nav-item.active {
+            background: var(--orange);
+            color: white;
+        }
+
+        .sidebar .nav-item .badge {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.15);
+            font-size: 0.7rem;
+            padding: 2px 7px;
+            border-radius: 999px;
+        }
+
+        .sidebar .nav-item.active .badge {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Main content */
+        .main {
+            padding: 28px 32px 60px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .top-bar h1 {
+            font-size: 1.5rem;
+        }
+
+        .top-bar .sub {
+            color: var(--ink-soft);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .admin-avatar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 7px 16px 7px 7px;
+        }
+
+        .admin-avatar .av {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--sky);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .admin-avatar .nm {
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* KPI cards */
+        .kpi-row {
+            display: grid;
+            grid-template-columns:repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+            padding: 20px;
+        }
+
+        .kpi-card .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .kpi-card .ico {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .kpi-card .num {
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.6rem;
+        }
+
+        .kpi-card .lbl {
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+            margin-top: 4px;
+        }
+
+        .kpi-card .delta {
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .delta-up {
+            color: var(--green);
+        }
+
+        .delta-down {
+            color: var(--red);
+        }
+
+        .section-card {
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-card .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-card h3 {
+            font-size: 1.05rem;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-tabs button {
+            background: var(--cream);
+            border: 1.5px solid var(--line);
+            border-radius: 999px;
+            padding: 8px 16px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+        }
+
+        .filter-tabs button.active {
+            background: var(--ink);
+            color: white;
+            border-color: var(--ink);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--ink-soft);
+            padding: 0 12px 12px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--line);
+            font-size: 0.88rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .row-driver {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .row-driver .av {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--sky);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.78rem;
+            flex-shrink: 0;
+        }
+
+        .row-driver .nm {
+            font-weight: 700;
+        }
+
+        .row-driver .ph {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+        }
+
+        .status-chip {
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: #FFF3E2;
+            color: var(--amber);
+        }
+
+        .status-approved {
+            background: #E3F6EA;
+            color: var(--green);
+        }
+
+        .status-rejected {
+            background: #FBE7E5;
+            color: var(--red);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 8px;
+            padding: 7px 13px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .btn-approve {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-reject {
+            background: white;
+            border: 1.5px solid var(--red);
+            color: var(--red);
+        }
+
+        .btn-view {
+            background: var(--cream);
+            color: var(--ink-soft);
+            border: 1.5px solid var(--line);
+        }
+
+        .doc-link {
+            color: var(--sky);
+            font-weight: 700;
+            font-size: 0.84rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns:1.5fr 1fr;
+            gap: 24px;
+        }
+
+        /* mini bar chart for popular routes */
+        .route-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .route-bar-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .route-bar-item .route-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            width: 160px;
+            flex-shrink: 0;
+        }
+
+        .route-bar-item .bar-track {
+            flex: 1;
+            height: 8px;
+            background: var(--cream);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .route-bar-item .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--orange-deep));
+            border-radius: 999px;
+        }
+
+        .route-bar-item .bar-val {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+            width: 36px;
+            text-align: right;
+        }
+
+        .complaint-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .complaint-item:last-child {
+            border-bottom: none;
+        }
+
+        .complaint-item .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 6px;
+        }
+
+        .complaint-item .who {
+            font-weight: 700;
+            font-size: 0.88rem;
+        }
+
+        .complaint-item .when {
+            font-size: 0.76rem;
+            color: var(--ink-soft);
+        }
+
+        .complaint-item p {
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+        }
+
+        @media (max-width: 1100px) {
+            .kpi-row {
+                grid-template-columns:1fr 1fr;
+            }
+
+            .grid-2col {
+                grid-template-columns:1fr;
+            }
+        }
+
+        @media (max-width: 860px) {
+            .admin-shell {
+                grid-template-columns:1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-shell">
+
+    <aside class="sidebar">
+        <div class="logo"><span class="mark">Y</span> Yo'lda Admin</div>
+
+        <div class="nav-section-lbl">Umumiy</div>
+        <div class="nav-item active">📊 Statistika</div>
+
+        <div class="nav-section-lbl">Moderatsiya</div>
+        <div class="nav-item">🪪 Haydovchilarni tasdiqlash <span class="badge">7</span></div>
+        <div class="nav-item">📋 E'lonlar moderatsiyasi <span class="badge">3</span></div>
+        <div class="nav-item">⚠️ Shikoyatlar <span class="badge">2</span></div>
+
+        <div class="nav-section-lbl">Boshqaruv</div>
+        <div class="nav-item">👤 Foydalanuvchilar</div>
+        <div class="nav-item">🛣️ Yo'nalishlar</div>
+        <div class="nav-item">⚙️ Sozlamalar</div>
+    </aside>
+
+    <main class="main">
+        <div class="top-bar">
+            <div>
+                <h1>Boshqaruv paneli</h1>
+                <div class="sub">18-iyun, 2026 holatiga ko'ra umumiy ko'rsatkichlar</div>
+            </div>
+            <div class="admin-avatar">
+                <div class="av">A</div>
+                <div class="nm">Admin</div>
+            </div>
+        </div>
+
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="top">
+                    <div class="ico" style="background:#E2F1FB; color:var(--sky);">🚗</div>
+                </div>
+                <div class="num">1 248</div>
+                <div class="lbl">Faol haydovchilar</div>
+                <div class="delta delta-up">↑ 12% shu oy</div>
+            </div>
+            <div class="kpi-card">
+                <div class="top">
+                    <div class="ico" style="background:#FFE9DD; color:var(--orange);">📦</div>
+                </div>
+                <div class="num">386</div>
+                <div class="lbl">Bugungi buyurtmalar</div>
+                <div class="delta delta-up">↑ 8% kechagiga nisbatan</div>
+            </div>
+            <div class="kpi-card">
+                <div class="top">
+                    <div class="ico" style="background:#FFF3E2; color:var(--amber);">⏳</div>
+                </div>
+                <div class="num">7</div>
+                <div class="lbl">Tasdiqlash kutayotgan</div>
+                <div class="delta delta-down">↓ 3 ta kecha</div>
+            </div>
+            <div class="kpi-card">
+                <div class="top">
+                    <div class="ico" style="background:#FBE7E5; color:var(--red);">⚠️</div>
+                </div>
+                <div class="num">2</div>
+                <div class="lbl">Ochiq shikoyatlar</div>
+                <div class="delta delta-up">↑ 1 ta yangi</div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="head">
+                <h3>Haydovchilarni tasdiqlash</h3>
+                <div class="filter-tabs">
+                    <button class="active">Kutilmoqda (7)</button>
+                    <button>Tasdiqlangan</button>
+                    <button>Rad etilgan</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Haydovchi</th>
+                    <th>Mashina</th>
+                    <th>Hujjat</th>
+                    <th>Topshirilgan sana</th>
+                    <th>Holat</th>
+                    <th>Amallar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="row-driver">
+                            <div class="av">OK</div>
+                            <div>
+                                <div class="nm">Otabek Karimov</div>
+                                <div class="ph">+998 93 *** ** 12</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>Chevrolet Malibu</td>
+                    <td><span class="doc-link">📄 Guvohnoma.jpg</span></td>
+                    <td>17-iyun, 2026</td>
+                    <td><span class="status-chip status-pending">Kutilmoqda</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn btn-approve">Tasdiqlash</button>
+                            <button class="action-btn btn-reject">Rad etish</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="row-driver">
+                            <div class="av">MY</div>
+                            <div>
+                                <div class="nm">Malika Yusupova</div>
+                                <div class="ph">+998 97 *** ** 45</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>Damas</td>
+                    <td><span class="doc-link">📄 Guvohnoma.jpg</span></td>
+                    <td>17-iyun, 2026</td>
+                    <td><span class="status-chip status-pending">Kutilmoqda</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn btn-approve">Tasdiqlash</button>
+                            <button class="action-btn btn-reject">Rad etish</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="row-driver">
+                            <div class="av">RT</div>
+                            <div>
+                                <div class="nm">Rustam Tursunov</div>
+                                <div class="ph">+998 90 *** ** 88</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>Spark</td>
+                    <td><span class="doc-link">📄 Guvohnoma.jpg</span></td>
+                    <td>16-iyun, 2026</td>
+                    <td><span class="status-chip status-approved">Tasdiqlangan</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn btn-view">Ko'rish</button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="grid-2col">
+            <div class="section-card">
+                <div class="head"><h3>Shikoyatlar</h3></div>
+                <div class="complaint-item">
+                    <div class="top"><span class="who">Dilnoza M. → Sardor R. (haydovchi)</span><span class="when">2 soat oldin</span>
+                    </div>
+                    <p>Kelishilgan narxdan yuqori to'lov so'ralgan. Toshkent → Samarqand yo'nalishi.</p>
+                </div>
+                <div class="complaint-item">
+                    <div class="top"><span class="who">Bekzod T. → Otabek K. (haydovchi)</span><span class="when">1 kun oldin</span>
+                    </div>
+                    <p>Haydovchi belgilangan vaqtda kelmagan, ogohlantirmasdan bekor qilingan.</p>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="head"><h3>Eng mashhur yo'nalishlar</h3></div>
+                <div class="route-bar-item">
+                    <span class="route-name">Toshkent → Samarqand</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width:88%;"></div>
+                    </div>
+                    <span class="bar-val">412</span>
+                </div>
+                <div class="route-bar-item">
+                    <span class="route-name">Toshkent → Farg'ona</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width:70%;"></div>
+                    </div>
+                    <span class="bar-val">328</span>
+                </div>
+                <div class="route-bar-item">
+                    <span class="route-name">Buxoro → Toshkent</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width:54%;"></div>
+                    </div>
+                    <span class="bar-val">256</span>
+                </div>
+                <div class="route-bar-item">
+                    <span class="route-name">Toshkent → Namangan</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width:41%;"></div>
+                    </div>
+                    <span class="bar-val">198</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

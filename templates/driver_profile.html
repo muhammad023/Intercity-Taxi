@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilim | Yo'lda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1A2E35;
+            --ink-soft: #4A5C63;
+            --paper: #FFFFFF;
+            --cream: #F7F4ED;
+            --orange: #FF6B35;
+            --orange-deep: #E85A2A;
+            --sky: #2D9CDB;
+            --sky-deep: #2387BE;
+            --green: #27AE60;
+            --red: #E0524C;
+            --line: #E7E2D6;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --shadow: 0 8px 24px rgba(26, 46, 53, 0.08);
+            --shadow-lift: 0 16px 40px rgba(26, 46, 53, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background: var(--cream);
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--sky);
+            outline-offset: 2px;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 28px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .logo .mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-deep));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: var(--cream);
+            border-radius: 999px;
+            padding: 4px;
+            border: 1px solid var(--line);
+        }
+
+        .lang-switch button {
+            border: none;
+            background: transparent;
+            padding: 6px 11px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+        }
+
+        .lang-switch button.active {
+            background: var(--ink);
+            color: white;
+        }
+
+        .page-wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 32px 28px 60px;
+        }
+
+        .profile-header {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--line);
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .profile-header .avatar-big {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            background: var(--sky);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .profile-header .info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .profile-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .verified-badge {
+            background: #E3F6EA;
+            color: var(--green);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .profile-header .meta {
+            display: flex;
+            gap: 18px;
+            color: var(--ink-soft);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-header .meta .star {
+            color: #F2B705;
+        }
+
+        .edit-btn {
+            background: var(--cream);
+            border: 1.5px solid var(--line);
+            border-radius: 999px;
+            padding: 11px 22px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--ink);
+        }
+
+        .role-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .role-tabs button {
+            background: white;
+            border: 1.5px solid var(--line);
+            border-radius: 999px;
+            padding: 11px 22px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--ink-soft);
+        }
+
+        .role-tabs button.active {
+            background: var(--ink);
+            color: white;
+            border-color: var(--ink);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns:1.4fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 18px;
+        }
+
+        .stat-row {
+            display: grid;
+            grid-template-columns:repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-box .num {
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--orange);
+        }
+
+        .stat-box .lbl {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+            margin-top: 4px;
+        }
+
+        .trip-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .trip-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .trip-item .trip-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #E2F1FB;
+            color: var(--sky);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .trip-item .trip-info {
+            flex: 1;
+        }
+
+        .trip-item .route {
+            font-weight: 700;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .trip-item .date {
+            font-size: 0.8rem;
+            color: var(--ink-soft);
+            margin-top: 2px;
+        }
+
+        .trip-item .trip-price {
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-align: right;
+        }
+
+        .trip-status {
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 999px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .status-done {
+            background: #E3F6EA;
+            color: var(--green);
+        }
+
+        .status-cancel {
+            background: #FBE7E5;
+            color: var(--red);
+        }
+
+        .review-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-item .stars {
+            color: #F2B705;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .review-item p {
+            font-size: 0.88rem;
+            color: var(--ink-soft);
+        }
+
+        .review-item .who {
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .doc-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .doc-row .doc-ico {
+            font-size: 1.3rem;
+        }
+
+        .doc-row .doc-info {
+            flex: 1;
+        }
+
+        .doc-row .doc-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .doc-row .doc-sub {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+        }
+
+        .doc-status {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        .car-summary {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .car-summary .car-ico {
+            font-size: 1.8rem;
+        }
+
+        .car-summary .car-name {
+            font-weight: 700;
+        }
+
+        .car-summary .car-plate {
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+            margin-bottom: 6px;
+        }
+
+        .field input, .field select {
+            width: 100%;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 11px 13px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: var(--cream);
+        }
+
+        @media (max-width: 860px) {
+            .grid-2 {
+                grid-template-columns:1fr;
+            }
+
+            .stat-row {
+                grid-template-columns:1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <a href="01_bosh_sahifa.html" class="logo"><span class="mark">Y</span> Yo'lda</a>
+        <div class="lang-switch">
+            <button class="active">UZ</button>
+            <button>РУ</button>
+        </div>
+    </div>
+</header>
+
+<div class="page-wrap">
+
+    <div class="profile-header">
+        <div class="avatar-big">JN</div>
+        <div class="info">
+            <h1>Jasur Normatov <span class="verified-badge">✓ Tasdiqlangan</span></h1>
+            <div class="meta">
+                <span><span class="star">★</span> 4.9 reyting</span>
+                <span>214 sayohat</span>
+                <span>2024-yildan a'zo</span>
+                <span>+998 90 *** ** 67</span>
+            </div>
+        </div>
+        <button class="edit-btn">Profilni tahrirlash</button>
+    </div>
+
+    <div class="role-tabs">
+        <button class="active">🚗 Haydovchi profili</button>
+        <button>🧳 Yo'lovchi profili</button>
+    </div>
+
+    <div class="grid-2">
+
+        <div>
+            <div class="card">
+                <h3>Statistika</h3>
+                <div class="stat-row">
+                    <div class="stat-box">
+                        <div class="num">214</div>
+                        <div class="lbl">jami sayohat</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="num">4.9</div>
+                        <div class="lbl">o'rtacha reyting</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="num">18</div>
+                        <div class="lbl">faol e'lonlar</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>So'nggi sayohatlar</h3>
+
+                <div class="trip-item">
+                    <div class="trip-icon">🚗</div>
+                    <div class="trip-info">
+                        <div class="route">Toshkent <span style="color:var(--ink-soft);">→</span> Samarqand</div>
+                        <div class="date">12-iyun, 2026 · 09:30</div>
+                        <span class="trip-status status-done">Yakunlandi</span>
+                    </div>
+                    <div class="trip-price">85 000<br><span
+                            style="font-size:0.7rem; color:var(--ink-soft); font-weight:500;">3 yo'lovchi</span></div>
+                </div>
+
+                <div class="trip-item">
+                    <div class="trip-icon">🚗</div>
+                    <div class="trip-info">
+                        <div class="route">Toshkent <span style="color:var(--ink-soft);">→</span> Buxoro</div>
+                        <div class="date">8-iyun, 2026 · 07:00</div>
+                        <span class="trip-status status-done">Yakunlandi</span>
+                    </div>
+                    <div class="trip-price">110 000<br><span
+                            style="font-size:0.7rem; color:var(--ink-soft); font-weight:500;">2 yo'lovchi</span></div>
+                </div>
+
+                <div class="trip-item">
+                    <div class="trip-icon">🚗</div>
+                    <div class="trip-info">
+                        <div class="route">Toshkent <span style="color:var(--ink-soft);">→</span> Farg'ona</div>
+                        <div class="date">3-iyun, 2026 · 14:00</div>
+                        <span class="trip-status status-cancel">Bekor qilindi</span>
+                    </div>
+                    <div class="trip-price">65 000<br><span
+                            style="font-size:0.7rem; color:var(--ink-soft); font-weight:500;">1 yo'lovchi</span></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Yo'lovchilar sharhlari</h3>
+                <div class="review-item">
+                    <div class="stars">★★★★★</div>
+                    <p>Vaqtida keldi, mashina toza va qulay edi. Yo'lda juda xushmuomala edi.</p>
+                    <div class="who">Dilnoza M. · Toshkent → Samarqand</div>
+                </div>
+                <div class="review-item">
+                    <div class="stars">★★★★★</div>
+                    <p>Narx kelishilganidek bo'ldi, hech qanday qo'shimcha to'lov so'ralmadi.</p>
+                    <div class="who">Bekzod T. · Toshkent → Buxoro</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="card">
+                <h3>Mashina ma'lumotlari</h3>
+                <div class="car-summary">
+                    <div class="car-ico">🚙</div>
+                    <div>
+                        <div class="car-name">Chevrolet Cobalt</div>
+                        <div class="car-plate">01 A 123 BC · Sedan · Klimat-kontrol bor</div>
+                    </div>
+                </div>
+                <button class="edit-btn" style="width:100%;">Mashina ma'lumotlarini tahrirlash</button>
+            </div>
+
+            <div class="card">
+                <h3>Hujjatlar holati</h3>
+                <div class="doc-row">
+                    <div class="doc-ico">🪪</div>
+                    <div class="doc-info">
+                        <div class="doc-name">Haydovchilik guvohnomasi</div>
+                        <div class="doc-sub">Yuklangan: 14-yanvar, 2024</div>
+                    </div>
+                    <span class="doc-status" style="background:#E3F6EA; color:var(--green);">Tasdiqlangan</span>
+                </div>
+                <div class="doc-row">
+                    <div class="doc-ico">📋</div>
+                    <div class="doc-info">
+                        <div class="doc-name">Texnik passport</div>
+                        <div class="doc-sub">Yuklangan: 14-yanvar, 2024</div>
+                    </div>
+                    <span class="doc-status" style="background:#FFF3E2; color:#B8740A;">Ko'rib chiqilmoqda</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Shaxsiy ma'lumotlar</h3>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Ism va familiya</label>
+                        <input type="text" value="Jasur Normatov">
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <input type="email" value="jasur.n@email.com">
+                    </div>
+                    <div class="field">
+                        <label>Til</label>
+                        <select>
+                            <option>O'zbek (lotin)</option>
+                            <option>O'zbek (kirill)</option>
+                            <option>Русский</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
