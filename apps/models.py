@@ -85,7 +85,7 @@ class Route(Model):
     status = CharField(choices=Status.choices,default=Status.YOPIQ ,max_length=50)
 
 class Driver(Model):
-    user_id = ForeignKey('', on_delete=CASCADE, related_name='drivers')
+    user = ForeignKey('apps.User', on_delete=CASCADE, related_name='drivers')
     car_mark = CharField(max_length=25)
     car_model = CharField(max_length=25)
     car_number = CharField(max_length=25)
@@ -95,8 +95,7 @@ class Driver(Model):
     travel_count = SmallIntegerField(blank=True, null=True, default=0)
 
 
-class Booking(AbstractUser):
-    id = models.AutoField(primary_key=True)
+class Booking(Model):
     route = ForeignKey('apps.Route' , on_delete=CASCADE)
     passenger = ForeignKey('apps.User' , on_delete=CASCADE)
     seats_number = models.SmallIntegerField()
@@ -105,7 +104,6 @@ class Booking(AbstractUser):
 
 
 class Review(Model):
-    id = models.AutoField(primary_key=True)
     booking = ForeignKey('apps.Booking' , on_delete=CASCADE)
     reviewer = ForeignKey('apps.User' , on_delete=CASCADE)
     reviewed = ForeignKey('apps.Driver' , on_delete=CASCADE)
