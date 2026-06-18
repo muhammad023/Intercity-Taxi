@@ -66,7 +66,7 @@ class City(Model):
     viloyat = CharField(max_length=50)
     latitude = DecimalField(max_digits=9, decimal_places=6)
     longitude = DecimalField(max_digits=9, decimal_places=6)
-
+# Hello
 
 class Route(Model):
     class Type(models.TextChoices):
@@ -103,3 +103,19 @@ class Booking(AbstractUser):
     status = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+class Booking(Model):
+    id = models.AutoField(primary_key=True)
+    route = ForeignKey('apps.' , on_delete=CASCADE)
+    passenger = ForeignKey('apps.User' , on_delete=CASCADE)
+    seats_number = models.SmallIntegerField(max_length=12)
+    status = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class Review(Model):
+    id = models.AutoField(primary_key=True)
+    booking = ForeignKey('apps.Booking' , on_delete=CASCADE)
+    reviewer = ForeignKey('apps.User' , on_delete=CASCADE)
+    reviewed = ForeignKey('apps.Driver' , on_delete=CASCADE)
+    score = models.floatField()
+    destination = models.TextField()
