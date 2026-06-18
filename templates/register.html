@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ro'yxatdan o'tish | Yo'lda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1A2E35;
+            --ink-soft: #4A5C63;
+            --paper: #FFFFFF;
+            --cream: #F7F4ED;
+            --orange: #FF6B35;
+            --orange-deep: #E85A2A;
+            --sky: #2D9CDB;
+            --sky-deep: #2387BE;
+            --green: #27AE60;
+            --line: #E7E2D6;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --shadow: 0 8px 24px rgba(26, 46, 53, 0.08);
+            --shadow-lift: 0 16px 40px rgba(26, 46, 53, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background: var(--cream);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--sky);
+            outline-offset: 2px;
+        }
+
+        .top-logo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 32px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .logo .mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-deep));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: white;
+            border-radius: 999px;
+            padding: 4px;
+            border: 1px solid var(--line);
+        }
+
+        .lang-switch button {
+            border: none;
+            background: transparent;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+        }
+
+        .lang-switch button.active {
+            background: var(--ink);
+            color: white;
+        }
+
+        .auth-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px 20px 80px;
+            min-height: calc(100vh - 100px);
+        }
+
+        .auth-shell {
+            display: grid;
+            grid-template-columns:1fr 1fr;
+            max-width: 980px;
+            width: 100%;
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lift);
+        }
+
+        .auth-art {
+            background: linear-gradient(160deg, #1A2E35 0%, #28424C 100%);
+            padding: 48px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .auth-art::before {
+            content: '';
+            position: absolute;
+            right: -50px;
+            bottom: -50px;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.22), transparent 70%);
+        }
+
+        .auth-art h2 {
+            font-size: 1.6rem;
+            line-height: 1.25;
+            margin-bottom: 14px;
+        }
+
+        .auth-art p {
+            color: #C7D2D6;
+            font-size: 0.92rem;
+            max-width: 300px;
+        }
+
+        .auth-art-illustration {
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-top: 18px;
+        }
+
+        .feature-row .ico {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.95rem;
+        }
+
+        .feature-row .txt {
+            font-size: 0.85rem;
+            color: #C7D2D6;
+        }
+
+        .feature-row .txt b {
+            color: white;
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .auth-form-side {
+            padding: 48px 44px;
+        }
+
+        .role-toggle {
+            display: flex;
+            gap: 8px;
+            background: var(--cream);
+            border-radius: 999px;
+            padding: 5px;
+            margin-bottom: 32px;
+        }
+
+        .role-toggle button {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 11px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--ink-soft);
+            transition: all .15s;
+        }
+
+        .role-toggle button.active {
+            background: var(--orange);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .auth-form-side h1 {
+            font-size: 1.55rem;
+            margin-bottom: 8px;
+        }
+
+        .auth-form-side .sub {
+            color: var(--ink-soft);
+            font-size: 0.92rem;
+            margin-bottom: 28px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+            margin-bottom: 7px;
+        }
+
+        .field input, .field select {
+            width: 100%;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 13px 14px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--ink);
+            background: var(--cream);
+        }
+
+        .field input:focus, .field select:focus {
+            border-color: var(--sky);
+            background: white;
+        }
+
+        .field-hint {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+            margin-top: 6px;
+        }
+
+        .phone-field {
+            display: flex;
+            gap: 10px;
+        }
+
+        .phone-prefix {
+            background: var(--cream);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 13px 14px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--ink-soft);
+            flex-shrink: 0;
+        }
+
+        .otp-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .otp-box {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+            font-family: 'Manrope';
+            background: var(--cream);
+        }
+
+        .otp-box:focus {
+            border-color: var(--sky);
+            background: white;
+        }
+
+        .otp-resend {
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+            margin-top: 10px;
+        }
+
+        .otp-resend b {
+            color: var(--orange);
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--orange);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 15px;
+            font-weight: 700;
+            font-size: 0.98rem;
+            margin-top: 8px;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.32);
+        }
+
+        .btn-submit:hover {
+            background: var(--orange-deep);
+        }
+
+        .divider-or {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 24px 0;
+            color: var(--ink-soft);
+            font-size: 0.82rem;
+        }
+
+        .divider-or::before, .divider-or::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--line);
+        }
+
+        .switch-mode {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--ink-soft);
+            margin-top: 22px;
+        }
+
+        .switch-mode b {
+            color: var(--sky);
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .driver-extra {
+            border-top: 1px dashed var(--line);
+            margin-top: 22px;
+            padding-top: 22px;
+        }
+
+        .driver-extra .group-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .upload-box {
+            border: 1.5px dashed var(--line);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            text-align: center;
+            background: var(--cream);
+            color: var(--ink-soft);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .upload-box .ico {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        @media (max-width: 860px) {
+            .auth-shell {
+                grid-template-columns:1fr;
+            }
+
+            .auth-art {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-logo">
+    <a href="01_bosh_sahifa.html" class="logo"><span class="mark">Y</span> Yo'lda</a>
+    <div class="lang-switch">
+        <button class="active">UZ</button>
+        <button>РУ</button>
+    </div>
+</div>
+
+<div class="auth-wrap">
+    <div class="auth-shell">
+
+        <div class="auth-art">
+            <div class="auth-art-illustration">
+                <h2>Yo'lga xavfsiz va xotirjam chiqing</h2>
+                <p>Har bir haydovchi hujjatlari tekshirilgan, har bir narx oldindan ko'rsatilgan.</p>
+            </div>
+            <div>
+                <div class="feature-row">
+                    <div class="ico">🛡️</div>
+                    <div class="txt"><b>Tasdiqlangan haydovchilar</b>Hujjatlar admin tomonidan qo'lda tekshiriladi</div>
+                </div>
+                <div class="feature-row">
+                    <div class="ico">📞</div>
+                    <div class="txt"><b>Maxfiy aloqa</b>Raqamlar faqat buyurtma tasdiqlangach ochiladi</div>
+                </div>
+                <div class="feature-row">
+                    <div class="ico">⭐</div>
+                    <div class="txt"><b>Haqiqiy sharhlar</b>Faqat sayohat qilgan foydalanuvchilar baho qoldiradi</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-form-side">
+            <div class="role-toggle">
+                <button class="active">Yo'lovchiman</button>
+                <button>Haydovchiman</button>
+            </div>
+
+            <h1>Hisobga kirish</h1>
+            <div class="sub">Telefon raqamingizni kiriting, tasdiqlash kodi email orqali yuboriladi</div>
+
+            <!-- Step 1: phone + email -->
+            <div class="field">
+                <label>Telefon raqami</label>
+                <div class="phone-field">
+                    <div class="phone-prefix">+998</div>
+                    <input type="tel" placeholder="90 123 45 67">
+                </div>
+            </div>
+            <div class="field">
+                <label>Email manzil</label>
+                <input type="email" placeholder="sizning@email.com">
+                <div class="field-hint">Tasdiqlash kodi shu email manzilga yuboriladi</div>
+            </div>
+            <div class="field">
+                <label>Ism va familiya</label>
+                <input type="text" placeholder="Ism Familiya">
+            </div>
+            <div class="field">
+                <label>Til</label>
+                <select>
+                    <option>O'zbek (lotin)</option>
+                    <option>O'zbek (kirill)</option>
+                    <option>Русский</option>
+                </select>
+            </div>
+
+            <!-- Driver-only extra fields (shown when "Haydovchiman" selected) -->
+            <div class="driver-extra">
+                <span class="group-label">Haydovchi ma'lumotlari</span>
+                <div class="field">
+                    <label>Mashina markasi va modeli</label>
+                    <input type="text" placeholder="Masalan: Chevrolet Cobalt">
+                </div>
+                <div class="field">
+                    <label>Davlat raqami</label>
+                    <input type="text" placeholder="01 A 123 BC">
+                </div>
+                <div class="field">
+                    <label>Haydovchilik guvohnomasi</label>
+                    <div class="upload-box">
+                        <span class="ico">📄</span>
+                        Rasm yuklash uchun bosing yoki shu yerga tashlang
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-submit">Tasdiqlash kodini yuborish</button>
+
+            <div class="divider-or">yoki</div>
+
+            <!-- Step 2: OTP entry (shown after code sent) -->
+            <div class="field">
+                <label>Email orqali yuborilgan 6 xonali kod</label>
+                <div class="otp-row">
+                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                </div>
+                <div class="otp-resend">Kod kelmadimi? <b>59 soniyadan keyin qayta yuborish</b></div>
+            </div>
+            <button class="btn-submit">Tasdiqlash va kirish</button>
+
+            <div class="switch-mode">Hisobingiz yo'qmi? <b>Ro'yxatdan o'tish</b></div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

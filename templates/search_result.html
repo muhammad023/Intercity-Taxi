@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toshkent → Samarqand | Yo'lda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1A2E35;
+            --ink-soft: #4A5C63;
+            --paper: #FFFFFF;
+            --cream: #F7F4ED;
+            --orange: #FF6B35;
+            --orange-deep: #E85A2A;
+            --sky: #2D9CDB;
+            --sky-deep: #2387BE;
+            --green: #27AE60;
+            --line: #E7E2D6;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --shadow: 0 8px 24px rgba(26, 46, 53, 0.08);
+            --shadow-lift: 0 16px 40px rgba(26, 46, 53, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background: var(--cream);
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--sky);
+            outline-offset: 2px;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 28px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .logo .mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-deep));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: var(--cream);
+            border-radius: 999px;
+            padding: 4px;
+            border: 1px solid var(--line);
+        }
+
+        .lang-switch button {
+            border: none;
+            background: transparent;
+            padding: 6px 11px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+        }
+
+        .lang-switch button.active {
+            background: var(--ink);
+            color: white;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1.5px solid var(--line);
+            color: var(--ink);
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: white;
+        }
+
+        /* Search recap bar */
+        .recap-bar {
+            background: white;
+            border-bottom: 1px solid var(--line);
+            padding: 18px 0;
+        }
+
+        .recap-wrap {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .recap-route {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.15rem;
+        }
+
+        .road-divider {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: 36px;
+        }
+
+        .road-divider .dash-line {
+            flex: 1;
+            height: 2px;
+            background-image: repeating-linear-gradient(to right, var(--line) 0 8px, transparent 8px 14px);
+        }
+
+        .recap-meta {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: var(--ink-soft);
+            font-size: 0.88rem;
+        }
+
+        .pill-input {
+            background: var(--cream);
+            border: 1.5px solid var(--line);
+            border-radius: 999px;
+            padding: 9px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--ink);
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .edit-search-btn {
+            margin-left: auto;
+            background: var(--ink);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 10px 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .layout {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 28px 28px 60px;
+            display: grid;
+            grid-template-columns:260px 1fr 340px;
+            gap: 24px;
+        }
+
+        /* Filters sidebar */
+        .filters {
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+            padding: 22px;
+            align-self: start;
+            position: sticky;
+            top: 20px;
+        }
+
+        .filters h3 {
+            font-size: 1rem;
+            margin-bottom: 18px;
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-group label.group-label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--ink-soft);
+            margin-bottom: 12px;
+        }
+
+        .range-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .range-display .lo, .range-display .hi {
+            color: var(--orange);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--orange);
+        }
+
+        .check-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 11px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .check-row input {
+            width: 17px;
+            height: 17px;
+            accent-color: var(--orange);
+            cursor: pointer;
+        }
+
+        .rating-stars {
+            color: #F2B705;
+            font-size: 0.85rem;
+        }
+
+        .reset-filters {
+            width: 100%;
+            background: transparent;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+            margin-top: 6px;
+        }
+
+        /* Results list */
+        .results-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .results-head h2 {
+            font-size: 1.3rem;
+        }
+
+        .results-head .count {
+            color: var(--ink-soft);
+            font-size: 0.92rem;
+            font-weight: 500;
+        }
+
+        .sort-select {
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 9px 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: white;
+            color: var(--ink);
+        }
+
+        .driver-card {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 16px;
+            display: grid;
+            grid-template-columns:auto 1fr auto;
+            gap: 20px;
+            align-items: center;
+            transition: box-shadow .15s, transform .15s;
+        }
+
+        .driver-card:hover {
+            box-shadow: var(--shadow-lift);
+            transform: translateY(-2px);
+        }
+
+        .driver-card .avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: var(--sky);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .driver-info .top-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .driver-info .name {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .verified-badge {
+            background: #E3F6EA;
+            color: var(--green);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .driver-info .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+            margin-bottom: 8px;
+        }
+
+        .driver-info .rating .star {
+            color: #F2B705;
+        }
+
+        .driver-info .car-line {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.86rem;
+            color: var(--ink-soft);
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--cream);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .driver-times {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+        }
+
+        .driver-times .road-divider {
+            width: 46px;
+        }
+
+        .driver-times b {
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .driver-side {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .driver-side .price {
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--orange);
+        }
+
+        .driver-side .price small {
+            font-size: 0.7rem;
+            color: var(--ink-soft);
+            font-weight: 500;
+            display: block;
+        }
+
+        .driver-side .seats {
+            font-size: 0.8rem;
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .book-btn {
+            background: var(--orange);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 11px 22px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            white-space: nowrap;
+        }
+
+        .book-btn:hover {
+            background: var(--orange-deep);
+        }
+
+        @media (max-width: 1100px) {
+            .layout {
+                grid-template-columns:1fr;
+            }
+
+            .map-panel {
+                display: none;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .filters {
+                position: static;
+            }
+
+            .driver-card {
+                grid-template-columns:1fr;
+                text-align: left;
+            }
+
+            .driver-side {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+            }
+        }
+
+        /* Map panel */
+        .map-panel {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            align-self: start;
+            position: sticky;
+            top: 20px;
+        }
+
+        .map-canvas {
+            height: 280px;
+            background: linear-gradient(160deg, #EAF6FF, #F7F4ED 60%, #FFE3D1);
+            position: relative;
+        }
+
+        .map-canvas svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .map-info {
+            padding: 18px;
+        }
+
+        .map-info .dist-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            margin-bottom: 10px;
+        }
+
+        .map-info .dist-row b {
+            font-family: 'Manrope';
+        }
+
+        .map-info hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 14px 0;
+        }
+
+        .map-info .city-pin {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .pin-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <a href="01_bosh_sahifa.html" class="logo"><span class="mark">Y</span> Yo'lda</a>
+        <div class="nav-actions">
+            <div class="lang-switch">
+                <button class="active">UZ</button>
+                <button>РУ</button>
+            </div>
+            <a href="03_royxatdan_otish.html" class="btn btn-ghost">Kirish</a>
+            <a href="05_elon_joylash.html" class="btn btn-primary">Haydovchi bo'lish</a>
+        </div>
+    </div>
+</header>
+
+<div class="recap-bar">
+    <div class="recap-wrap">
+        <div class="recap-route">
+            Toshkent <span class="road-divider"><span class="dash-line"></span></span> Samarqand
+        </div>
+        <div class="recap-meta">
+            <div class="pill-input">📅 18-iyun, 2026</div>
+            <div class="pill-input">👤 1 o'rindiq</div>
+        </div>
+        <button class="edit-search-btn">Qidiruvni o'zgartirish</button>
+    </div>
+</div>
+
+<div class="layout">
+
+    <aside class="filters">
+        <h3>Filtrlash</h3>
+        <div class="filter-group">
+            <label class="group-label">Narx oralig'i</label>
+            <div class="range-display"><span class="lo">40 000</span> — <span class="hi">120 000</span> so'm</div>
+            <input type="range" min="40000" max="150000" value="120000">
+        </div>
+        <div class="filter-group">
+            <label class="group-label">Ketish vaqti</label>
+            <label class="check-row"><input type="checkbox"> Ertalab (06:00–11:00)</label>
+            <label class="check-row"><input type="checkbox" checked> Kunduzi (11:00–17:00)</label>
+            <label class="check-row"><input type="checkbox"> Kechqurun (17:00–23:00)</label>
+        </div>
+        <div class="filter-group">
+            <label class="group-label">Mashina turi</label>
+            <label class="check-row"><input type="checkbox" checked> Sedan</label>
+            <label class="check-row"><input type="checkbox"> Monovolume (7 o'rindiq)</label>
+            <label class="check-row"><input type="checkbox"> Klimat-kontrol bor</label>
+        </div>
+        <div class="filter-group">
+            <label class="group-label">Haydovchi reytingi</label>
+            <label class="check-row"><input type="checkbox"> <span class="rating-stars">★★★★★</span> 4.5 dan
+                yuqori</label>
+            <label class="check-row"><input type="checkbox"> <span class="rating-stars">★★★★</span> 4.0 dan
+                yuqori</label>
+        </div>
+        <button class="reset-filters">Filtrlarni tozalash</button>
+    </aside>
+
+    <main>
+        <div class="results-head">
+            <div>
+                <h2>12 ta haydovchi topildi</h2>
+                <div class="count">Toshkent → Samarqand, 18-iyun</div>
+            </div>
+            <select class="sort-select">
+                <option>Saralash: tavsiya etilgan</option>
+                <option>Narx: arzondan qimmatga</option>
+                <option>Reyting: yuqoridan</option>
+                <option>Ketish vaqti</option>
+            </select>
+        </div>
+
+        <div class="driver-card">
+            <div class="avatar">JN</div>
+            <div class="driver-info">
+                <div class="top-row">
+                    <span class="name">Jasur Normatov</span>
+                    <span class="verified-badge">✓ Tasdiqlangan</span>
+                </div>
+                <div class="rating"><span class="star">★★★★★</span> 4.9 · 214 sayohat</div>
+                <div class="car-line">
+                    <span class="tag">Chevrolet Cobalt</span>
+                    <span class="tag">Sedan</span>
+                    <span class="tag">❄️ Klimat-kontrol</span>
+                </div>
+                <div class="driver-times">
+                    <b>09:30</b> Toshkent <span class="road-divider"><span class="dash-line"></span></span> <b>13:00</b>
+                    Samarqand
+                </div>
+            </div>
+            <div class="driver-side">
+                <div class="price">85 000<small>so'm/o'rin</small></div>
+                <div class="seats">3 joy bo'sh</div>
+                <button class="book-btn">Band qilish</button>
+            </div>
+        </div>
+
+        <div class="driver-card">
+            <div class="avatar">SR</div>
+            <div class="driver-info">
+                <div class="top-row">
+                    <span class="name">Sardor Raximov</span>
+                    <span class="verified-badge">✓ Tasdiqlangan</span>
+                </div>
+                <div class="rating"><span class="star">★★★★★</span> 4.8 · 156 sayohat</div>
+                <div class="car-line">
+                    <span class="tag">Damas</span>
+                    <span class="tag">Monovolume</span>
+                </div>
+                <div class="driver-times">
+                    <b>11:00</b> Toshkent <span class="road-divider"><span class="dash-line"></span></span> <b>15:00</b>
+                    Samarqand
+                </div>
+            </div>
+            <div class="driver-side">
+                <div class="price">70 000<small>so'm/o'rin</small></div>
+                <div class="seats">1 joy bo'sh</div>
+                <button class="book-btn">Band qilish</button>
+            </div>
+        </div>
+
+        <div class="driver-card">
+            <div class="avatar">OK</div>
+            <div class="driver-info">
+                <div class="top-row">
+                    <span class="name">Otabek Karimov</span>
+                </div>
+                <div class="rating"><span class="star">★★★★</span> 4.3 · 42 sayohat</div>
+                <div class="car-line">
+                    <span class="tag">Malibu</span>
+                    <span class="tag">Sedan</span>
+                    <span class="tag">❄️ Klimat-kontrol</span>
+                </div>
+                <div class="driver-times">
+                    <b>13:00</b> Toshkent <span class="road-divider"><span class="dash-line"></span></span> <b>16:30</b>
+                    Samarqand
+                </div>
+            </div>
+            <div class="driver-side">
+                <div class="price">95 000<small>so'm/o'rin</small></div>
+                <div class="seats">4 joy bo'sh</div>
+                <button class="book-btn">Band qilish</button>
+            </div>
+        </div>
+
+    </main>
+
+    <aside class="map-panel">
+        <div class="map-canvas">
+            <svg viewBox="0 0 340 280" preserveAspectRatio="none">
+                <path d="M40,40 Q150,60 130,140 T250,200 Q290,220 300,250" stroke="#FF6B35" stroke-width="3"
+                      stroke-dasharray="2 11" fill="none" stroke-linecap="round"/>
+                <circle cx="40" cy="40" r="6" fill="#1A2E35"/>
+                <circle cx="300" cy="250" r="6" fill="#2D9CDB"/>
+            </svg>
+        </div>
+        <div class="map-info">
+            <div class="city-pin"><span class="pin-dot" style="background:var(--ink);"></span> Toshkent</div>
+            <div class="city-pin"><span class="pin-dot" style="background:var(--sky);"></span> Samarqand</div>
+            <hr>
+            <div class="dist-row"><span>Masofa</span><b>308 km</b></div>
+            <div class="dist-row"><span>Taxminiy vaqt</span><b>3 soat 30 daqiqa</b></div>
+        </div>
+    </aside>
+
+</div>
+
+</body>
+</html>

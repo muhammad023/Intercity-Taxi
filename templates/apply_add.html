@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yo'nalish e'lon qilish | Yo'lda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1A2E35;
+            --ink-soft: #4A5C63;
+            --paper: #FFFFFF;
+            --cream: #F7F4ED;
+            --orange: #FF6B35;
+            --orange-deep: #E85A2A;
+            --sky: #2D9CDB;
+            --sky-deep: #2387BE;
+            --green: #27AE60;
+            --line: #E7E2D6;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --shadow: 0 8px 24px rgba(26, 46, 53, 0.08);
+            --shadow-lift: 0 16px 40px rgba(26, 46, 53, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background: var(--cream);
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--sky);
+            outline-offset: 2px;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 28px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .logo .mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-deep));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: var(--cream);
+            border-radius: 999px;
+            padding: 4px;
+            border: 1px solid var(--line);
+        }
+
+        .lang-switch button {
+            border: none;
+            background: transparent;
+            padding: 6px 11px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+        }
+
+        .lang-switch button.active {
+            background: var(--ink);
+            color: white;
+        }
+
+        .page-wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 36px 28px 60px;
+        }
+
+        .page-title {
+            margin-bottom: 8px;
+            font-size: 1.7rem;
+        }
+
+        .page-sub {
+            color: var(--ink-soft);
+            margin-bottom: 30px;
+        }
+
+        .progress-track {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 36px;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            position: relative;
+        }
+
+        .progress-step .circle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+            z-index: 2;
+        }
+
+        .progress-step.active .circle {
+            background: var(--orange);
+            border-color: var(--orange);
+            color: white;
+        }
+
+        .progress-step.done .circle {
+            background: var(--green);
+            border-color: var(--green);
+            color: white;
+        }
+
+        .progress-step .lbl {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+        }
+
+        .progress-step.active .lbl {
+            color: var(--ink);
+        }
+
+        .progress-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 17px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: var(--line);
+            z-index: 1;
+        }
+
+        .progress-step.done:not(:last-child)::after {
+            background: var(--green);
+        }
+
+        .grid-form {
+            display: grid;
+            grid-template-columns:1.3fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 .step-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--orange);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            flex-shrink: 0;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+            margin-bottom: 7px;
+        }
+
+        .field input, .field select, .field textarea {
+            width: 100%;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            color: var(--ink);
+            background: var(--cream);
+            resize: vertical;
+        }
+
+        .field input:focus, .field select:focus, .field textarea:focus {
+            border-color: var(--sky);
+            background: white;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns:1fr 1fr;
+            gap: 14px;
+        }
+
+        .route-visual {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 18px;
+        }
+
+        .route-visual .pin {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .route-visual .road-divider {
+            flex: 1;
+            height: 2px;
+            background-image: repeating-linear-gradient(to right, var(--line) 0 8px, transparent 8px 14px);
+        }
+
+        .route-visual span.city {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .seat-counter {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .seat-counter button {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1.5px solid var(--line);
+            background: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .seat-counter .seat-num {
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.3rem;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .toggle-row:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-row .label-txt {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .toggle-row .label-sub {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+            margin-top: 2px;
+        }
+
+        .switch {
+            position: relative;
+            width: 46px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .switch .slider {
+            position: absolute;
+            inset: 0;
+            background: var(--line);
+            border-radius: 999px;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+        .switch .slider::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: .2s;
+        }
+
+        .switch input:checked + .slider {
+            background: var(--green);
+        }
+
+        .switch input:checked + .slider::before {
+            transform: translateX(20px);
+        }
+
+        .frequency-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .frequency-tabs button {
+            flex: 1;
+            background: var(--cream);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 11px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+        }
+
+        .frequency-tabs button.active {
+            background: var(--ink);
+            color: white;
+            border-color: var(--ink);
+        }
+
+        .preview-card {
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+            padding: 22px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .preview-card h4 {
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 16px;
+        }
+
+        .preview-mini-card {
+            border: 1px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            background: var(--cream);
+        }
+
+        .preview-mini-card .top-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .preview-mini-card .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--sky);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .preview-mini-card .name {
+            font-weight: 700;
+            font-size: 0.88rem;
+        }
+
+        .preview-mini-card .car {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+        }
+
+        .preview-route {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .preview-route .road-divider {
+            width: 24px;
+            height: 2px;
+            background-image: repeating-linear-gradient(to right, var(--line) 0 6px, transparent 6px 11px);
+        }
+
+        .preview-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+            margin-top: 10px;
+        }
+
+        .preview-price {
+            font-family: 'Manrope';
+            font-weight: 800;
+            color: var(--orange);
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .publish-btn {
+            width: 100%;
+            background: var(--orange);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 15px;
+            font-weight: 700;
+            font-size: 0.98rem;
+            margin-top: 18px;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.32);
+        }
+
+        .draft-btn {
+            width: 100%;
+            background: transparent;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 13px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--ink-soft);
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-form {
+                grid-template-columns:1fr;
+            }
+
+            .field-row {
+                grid-template-columns:1fr;
+            }
+
+            .preview-card {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <a href="01_bosh_sahifa.html" class="logo"><span class="mark">Y</span> Yo'lda</a>
+        <div class="lang-switch">
+            <button class="active">UZ</button>
+            <button>РУ</button>
+        </div>
+    </div>
+</header>
+
+<div class="page-wrap">
+    <h1 class="page-title">Yangi yo'nalish e'lon qiling</h1>
+    <p class="page-sub">Ma'lumotlarni to'ldiring — e'lon darhol qidiruv natijalarida ko'rina boshlaydi.</p>
+
+    <div class="progress-track">
+        <div class="progress-step done">
+            <div class="circle">✓</div>
+            <div class="lbl">Yo'nalish</div>
+        </div>
+        <div class="progress-step active">
+            <div class="circle">2</div>
+            <div class="lbl">Tafsilotlar</div>
+        </div>
+        <div class="progress-step">
+            <div class="circle">3</div>
+            <div class="lbl">Ko'rib chiqish</div>
+        </div>
+    </div>
+
+    <div class="grid-form">
+        <div>
+            <div class="card">
+                <h3><span class="step-num">1</span> Yo'nalish va vaqt</h3>
+
+                <div class="route-visual">
+                    <span class="pin" style="background:var(--ink);"></span>
+                    <span class="city">Toshkent</span>
+                    <span class="road-divider"></span>
+                    <span class="city">Samarqand</span>
+                    <span class="pin" style="background:var(--sky);"></span>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label>Qayerdan</label>
+                        <select>
+                            <option>Toshkent</option>
+                            <option>Samarqand</option>
+                            <option>Buxoro</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Qayerga</label>
+                        <select>
+                            <option>Samarqand</option>
+                            <option>Toshkent</option>
+                            <option>Andijon</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Aniq manzil (ixtiyoriy)</label>
+                    <input type="text" placeholder="Masalan: Sergeli tumani, Yunusobod metro yonida">
+                </div>
+
+                <div class="field">
+                    <label>Takrorlanish turi</label>
+                    <div class="frequency-tabs">
+                        <button class="active">Bugun</button>
+                        <button>Ertaga</button>
+                        <button>Muntazam</button>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label>Sana</label>
+                        <input type="date">
+                    </div>
+                    <div class="field">
+                        <label>Ketish vaqti</label>
+                        <input type="time">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><span class="step-num">2</span> Joylar va narx</h3>
+
+                <div class="field">
+                    <label>Bo'sh o'rindiqlar soni</label>
+                    <div class="seat-counter">
+                        <button>−</button>
+                        <span class="seat-num">3</span>
+                        <button>+</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Narx (1 o'rindiq uchun, so'm)</label>
+                    <input type="number" placeholder="85000">
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><span class="step-num">3</span> Mashina haqida</h3>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label>Mashina turi</label>
+                        <select>
+                            <option>Sedan</option>
+                            <option>Monovolume</option>
+                            <option>Universal</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Mashina modeli</label>
+                        <input type="text" placeholder="Chevrolet Cobalt">
+                    </div>
+                </div>
+
+                <div class="toggle-row">
+                    <div>
+                        <div class="label-txt">Klimat-kontrol</div>
+                        <div class="label-sub">Mashinada konditsioner ishlaydi</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                    <div>
+                        <div class="label-txt">Joy to'lganda avtomatik yashirish</div>
+                        <div class="label-sub">Barcha o'rindiqlar band bo'lganda e'lon ko'rinmaydi</div>
+                    </div>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                    <div>
+                        <div class="label-txt">Kichik yuk/pochta qabul qilaman</div>
+                        <div class="label-sub">Yo'lovchidan tashqari kichik buyum tashish</div>
+                    </div>
+                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="preview-card">
+                <h4>E'lon ko'rinishi</h4>
+                <div class="preview-mini-card">
+                    <div class="top-row">
+                        <div class="avatar">JN</div>
+                        <div>
+                            <div class="name">Jasur Normatov</div>
+                            <div class="car">Chevrolet Cobalt · Sedan</div>
+                        </div>
+                    </div>
+                    <div class="preview-route">Toshkent <span class="road-divider"></span> Samarqand</div>
+                    <div class="preview-meta">
+                        <span>09:30 · Bugun</span>
+                        <span>3 joy bo'sh</span>
+                    </div>
+                    <div class="preview-price">85 000 so'm <span
+                            style="font-size:0.7rem; color:var(--ink-soft); font-weight:500;">/ o'rin</span></div>
+                </div>
+
+                <button class="publish-btn">E'lonni joylash</button>
+                <button class="draft-btn">Qoralama sifatida saqlash</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
