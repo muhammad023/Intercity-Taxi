@@ -59,6 +59,33 @@ class User(AbstractUser):
     language = CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     email = EmailField()
+# Hello
+
+
+class Driver(Model):
+    user_id = ForeignKey('', on_delete=CASCADE, related_name='drivers')
+    car_mark = CharField(max_length=25)
+    car_model = CharField(max_length=25)
+    car_number = CharField(max_length=25)
+    prava_image = ImageField(upload_to='prava/')
+    prava_confirm = BooleanField()
+    reyting = FloatField()
+    travel_count = SmallIntegerField(blank=True, null=True, default=0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Booking(AbstractUser):
     id = models.AutoField(primary_key=True)
