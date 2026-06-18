@@ -68,6 +68,21 @@ class City(Model):
     longitude = DecimalField(max_digits=9, decimal_places=6)
 
 
+class Route(Model):
+    class Type(models.TextChoices):
+        SEDAN = 'sedan','Sedan'
+        MONOVOLUME = 'monovolume','Monovolume'
+    class Status(models.TextChoices):
+        FAOL = 'faol','Faol'
+        YOPIQ = 'yopiq','Yopiq'
+    driver = ForeignKey('apps.Driver', on_delete=CASCADE, related_name='routes')
+    from_city = CharField(max_length=50)
+    to_city = CharField(max_length=50)
+    leave_time = DateTimeField()
+    price = DecimalField(max_digits=9, decimal_places=6)
+    free_seats = IntegerField()
+    car_type = CharField(choices=Type.choices,default=Type.SEDAN ,max_length=50)
+    status = CharField(choices=Status.choices,default=Status.YOPIQ ,max_length=50)
 
 class Driver(Model):
     user_id = ForeignKey('', on_delete=CASCADE, related_name='drivers')
