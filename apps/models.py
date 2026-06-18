@@ -66,7 +66,7 @@ class City(Model):
     viloyat = CharField(max_length=50)
     latitude = DecimalField(max_digits=9, decimal_places=6)
     longitude = DecimalField(max_digits=9, decimal_places=6)
-
+# Hello
 
 
 class Driver(Model):
@@ -78,6 +78,15 @@ class Driver(Model):
     prava_confirm = BooleanField()
     reyting = FloatField()
     travel_count = SmallIntegerField(blank=True, null=True, default=0)
+
+
+class Booking(AbstractUser):
+    id = models.AutoField(primary_key=True)
+    route = ForeignKey('apps.' , on_delete=CASCADE)
+    passenger = ForeignKey('apps.User' , on_delete=CASCADE)
+    seats_number = models.SmallIntegerField(max_length=12)
+    status = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Booking(Model):
