@@ -521,7 +521,11 @@
                     <input class="otp-box" maxlength="1" inputmode="numeric">
                     <input class="otp-box" maxlength="1" inputmode="numeric">
                 </div>
-                <div class="otp-resend">Kod kelmadimi? <b>59 soniyadan keyin qayta yuborish</b></div>
+                <div class="otp-resend">
+                    Kod kelmadimi?
+                    <b id="resend-timer">59 soniyadan keyin qayta yuborish</b>
+                </div>
+
             </div>
             <button class="btn-submit">Tasdiqlash va kirish</button>
 
@@ -530,6 +534,43 @@
 
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        let seconds = 59;
+        const timer = document.getElementById("resend-timer");
+
+        const countdown = setInterval(function () {
+
+            timer.textContent = `${seconds} soniyadan keyin qayta yuborish`;
+
+            if (seconds <= 0) {
+                clearInterval(countdown);
+
+                timer.textContent = "Qayta yuborish";
+                timer.style.color = "#2563eb";
+                timer.style.cursor = "pointer";
+
+                timer.addEventListener("click", function () {
+
+                    // Django resend OTP URL
+                    window.location.href = "/resend-otp/";
+
+                    // yoki AJAX ishlatsangiz shu yerga yozasiz
+                });
+            }
+
+            seconds--;
+
+        }, 1000);
+
+    });
+</script>
 
 </body>
 </html>
+
+
+
+
+
