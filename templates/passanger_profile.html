@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mening profilim | Yo'lda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1A2E35;
+            --ink-soft: #4A5C63;
+            --paper: #FFFFFF;
+            --cream: #F7F4ED;
+            --orange: #FF6B35;
+            --orange-deep: #E85A2A;
+            --sky: #2D9CDB;
+            --sky-deep: #2387BE;
+            --green: #27AE60;
+            --red: #E0524C;
+            --amber: #B8740A;
+            --line: #E7E2D6;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --shadow: 0 8px 24px rgba(26, 46, 53, 0.08);
+            --shadow-lift: 0 16px 40px rgba(26, 46, 53, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background: var(--cream);
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--sky);
+            outline-offset: 2px;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .nav {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 28px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .logo .mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-deep));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: var(--cream);
+            border-radius: 999px;
+            padding: 4px;
+            border: 1px solid var(--line);
+        }
+
+        .lang-switch button {
+            border: none;
+            background: transparent;
+            padding: 6px 11px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+        }
+
+        .lang-switch button.active {
+            background: var(--ink);
+            color: white;
+        }
+
+        .switch-role-link {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--sky);
+        }
+
+        .page-wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 32px 28px 60px;
+        }
+
+        .profile-header {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--line);
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .profile-header .avatar-big {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            background: var(--orange);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .profile-header .info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .profile-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+        }
+
+        .profile-header .meta {
+            display: flex;
+            gap: 18px;
+            color: var(--ink-soft);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-header .meta .star {
+            color: #F2B705;
+        }
+
+        .edit-btn {
+            background: var(--cream);
+            border: 1.5px solid var(--line);
+            border-radius: 999px;
+            padding: 11px 22px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--ink);
+            transition: background .15s;
+        }
+
+        .edit-btn:hover {
+            background: #EFEADC;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: 1.5px solid var(--line);
+            border-radius: 999px;
+            padding: 11px 20px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--ink-soft);
+            transition: all .15s;
+        }
+
+        .tab-btn.active {
+            background: var(--ink);
+            color: white;
+            border-color: var(--ink);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeIn .2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns:1.4fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 18px;
+        }
+
+        .stat-row {
+            display: grid;
+            grid-template-columns:repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-box .num {
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--orange);
+        }
+
+        .stat-box .lbl {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+            margin-top: 4px;
+        }
+
+        .trip-filter-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .trip-filter-btn {
+            background: var(--cream);
+            border: 1.5px solid var(--line);
+            border-radius: 999px;
+            padding: 8px 16px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--ink-soft);
+        }
+
+        .trip-filter-btn.active {
+            background: var(--orange);
+            color: white;
+            border-color: var(--orange);
+        }
+
+        .trip-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .trip-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .trip-item.hidden {
+            display: none;
+        }
+
+        .trip-item .trip-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #E2F1FB;
+            color: var(--sky);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            flex-shrink: 0;
+        }
+
+        .trip-item .trip-info {
+            flex: 1;
+        }
+
+        .trip-item .route {
+            font-weight: 700;
+            font-size: 0.94rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .trip-item .date {
+            font-size: 0.8rem;
+            color: var(--ink-soft);
+            margin-top: 3px;
+        }
+
+        .trip-item .driver-name {
+            font-size: 0.8rem;
+            color: var(--ink-soft);
+            margin-top: 3px;
+        }
+
+        .trip-item .trip-right {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .trip-item .trip-price {
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 0.98rem;
+        }
+
+        .trip-status {
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 999px;
+            display: inline-block;
+        }
+
+        .status-confirmed {
+            background: #E2F1FB;
+            color: var(--sky-deep);
+        }
+
+        .status-done {
+            background: #E3F6EA;
+            color: var(--green);
+        }
+
+        .status-cancel {
+            background: #FBE7E5;
+            color: var(--red);
+        }
+
+        .status-pending {
+            background: #FFF3E2;
+            color: var(--amber);
+        }
+
+        .mini-action-btn {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--sky);
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .saved-route-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 12px;
+        }
+
+        .saved-route-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .saved-route-row .route-txt {
+            flex: 1;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .road-divider-mini {
+            width: 26px;
+            height: 2px;
+            background-image: repeating-linear-gradient(to right, var(--line) 0 6px, transparent 6px 11px);
+            flex-shrink: 0;
+        }
+
+        .saved-route-row .freq {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+        }
+
+        .bell-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1.5px solid var(--line);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            transition: all .15s;
+            flex-shrink: 0;
+        }
+
+        .bell-toggle.on {
+            background: var(--orange);
+            border-color: var(--orange);
+            color: white;
+        }
+
+        .remove-route-btn {
+            color: var(--red);
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: none;
+            border: none;
+            flex-shrink: 0;
+        }
+
+        .review-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-item .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .review-item .driver-nm {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .review-item .stars {
+            color: #F2B705;
+            font-size: 0.85rem;
+        }
+
+        .review-item p {
+            font-size: 0.88rem;
+            color: var(--ink-soft);
+        }
+
+        .review-item .route-sub {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+            margin-top: 6px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+            margin-bottom: 6px;
+        }
+
+        .field input, .field select {
+            width: 100%;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 11px 13px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            background: var(--cream);
+            transition: border-color .15s;
+        }
+
+        .field input:focus, .field select:focus {
+            border-color: var(--sky);
+            background: white;
+        }
+
+        .save-btn {
+            background: var(--orange);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 13px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .save-btn:hover {
+            background: var(--orange-deep);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 36px 20px;
+            color: var(--ink-soft);
+        }
+
+        .empty-state .ico {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+        }
+
+        /* Rating modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 46, 53, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: var(--shadow-lift);
+        }
+
+        .modal-box h3 {
+            margin-bottom: 6px;
+        }
+
+        .modal-box .sub {
+            color: var(--ink-soft);
+            font-size: 0.88rem;
+            margin-bottom: 20px;
+        }
+
+        .star-picker {
+            display: flex;
+            gap: 8px;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .star-picker span {
+            cursor: pointer;
+            color: var(--line);
+            transition: color .1s;
+        }
+
+        .star-picker span.active {
+            color: #F2B705;
+        }
+
+        .modal-box textarea {
+            width: 100%;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 80px;
+            background: var(--cream);
+            margin-bottom: 18px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            border: none;
+        }
+
+        .modal-cancel {
+            background: var(--cream);
+            color: var(--ink-soft);
+            border: 1.5px solid var(--line) !important;
+        }
+
+        .modal-confirm {
+            background: var(--orange);
+            color: white;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--ink);
+            color: white;
+            padding: 13px 22px;
+            border-radius: 999px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lift);
+            opacity: 0;
+            pointer-events: none;
+            transition: .25s;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 860px) {
+            .grid-2 {
+                grid-template-columns:1fr;
+            }
+
+            .stat-row {
+                grid-template-columns:1fr 1fr;
+            }
+
+            .trip-item {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <a href="01_bosh_sahifa.html" class="logo"><span class="mark">Y</span> Yo'lda</a>
+        <div class="nav-actions">
+            <a href="04_profil.html" class="switch-role-link">🚗 Haydovchi profiliga o'tish</a>
+            <div class="lang-switch">
+                <button class="active">UZ</button>
+                <button>РУ</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="page-wrap">
+
+    <div class="profile-header">
+        <div class="avatar-big">DM</div>
+        <div class="info">
+            <h1>Dilnoza Mirzayeva</h1>
+            <div class="meta">
+                <span><span class="star">★</span> 4.9 berilgan baho</span>
+                <span>23 sayohat</span>
+                <span>2025-yildan a'zo</span>
+                <span>+998 91 *** ** 34</span>
+            </div>
+        </div>
+        <button class="edit-btn" onclick="document.querySelector('[data-tab=settings]').click()">Profilni tahrirlash
+        </button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="trips">🧳 Sayohatlarim</button>
+        <button class="tab-btn" data-tab="saved">📌 Saqlangan yo'nalishlar</button>
+        <button class="tab-btn" data-tab="reviews">⭐ Berilgan baholar</button>
+        <button class="tab-btn" data-tab="settings">⚙️ Shaxsiy ma'lumotlar</button>
+    </div>
+
+    <!-- TRIPS TAB -->
+    <div class="tab-panel active" id="panel-trips">
+        <div class="grid-2">
+            <div>
+                <div class="card">
+                    <h3>Statistika</h3>
+                    <div class="stat-row">
+                        <div class="stat-box">
+                            <div class="num">23</div>
+                            <div class="lbl">jami sayohat</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="num">1.8M</div>
+                            <div class="lbl">jami sarflangan (so'm)</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="num">6</div>
+                            <div class="lbl">turli yo'nalish</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Sayohatlar tarixi</h3>
+                    <div class="trip-filter-row">
+                        <button class="trip-filter-btn active" data-filter="all">Barchasi</button>
+                        <button class="trip-filter-btn" data-filter="confirmed">Tasdiqlangan</button>
+                        <button class="trip-filter-btn" data-filter="done">Yakunlangan</button>
+                        <button class="trip-filter-btn" data-filter="cancel">Bekor qilingan</button>
+                    </div>
+
+                    <div class="trip-item" data-status="confirmed">
+                        <div class="trip-icon">🧳</div>
+                        <div class="trip-info">
+                            <div class="route">Toshkent <span style="color:var(--ink-soft);">→</span> Samarqand</div>
+                            <div class="date">22-iyun, 2026 · 09:30</div>
+                            <div class="driver-name">Haydovchi: Jasur N. · Chevrolet Cobalt</div>
+                        </div>
+                        <div class="trip-right">
+                            <span class="trip-status status-confirmed">Tasdiqlangan</span>
+                            <div class="trip-price">85 000 so'm</div>
+                            <button class="mini-action-btn" onclick="showToast('Buyurtma bekor qilindi')">Bekor qilish
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="trip-item" data-status="done">
+                        <div class="trip-icon">🧳</div>
+                        <div class="trip-info">
+                            <div class="route">Toshkent <span style="color:var(--ink-soft);">→</span> Buxoro</div>
+                            <div class="date">8-iyun, 2026 · 07:00</div>
+                            <div class="driver-name">Haydovchi: Sardor R. · Damas</div>
+                        </div>
+                        <div class="trip-right">
+                            <span class="trip-status status-done">Yakunlandi</span>
+                            <div class="trip-price">110 000 so'm</div>
+                            <button class="mini-action-btn" onclick="openRatingModal('Sardor R.', 'Toshkent → Buxoro')">
+                                Baho qoldirish
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="trip-item" data-status="done">
+                        <div class="trip-icon">🧳</div>
+                        <div class="trip-info">
+                            <div class="route">Samarqand <span style="color:var(--ink-soft);">→</span> Toshkent</div>
+                            <div class="date">29-may, 2026 · 16:00</div>
+                            <div class="driver-name">Haydovchi: Jasur N. · Chevrolet Cobalt</div>
+                        </div>
+                        <div class="trip-right">
+                            <span class="trip-status status-done">Yakunlandi</span>
+                            <div class="trip-price">85 000 so'm</div>
+                            <span class="mini-action-btn" style="color:var(--ink-soft); cursor:default;">★★★★★ baholangan</span>
+                        </div>
+                    </div>
+
+                    <div class="trip-item" data-status="cancel">
+                        <div class="trip-icon">🧳</div>
+                        <div class="trip-info">
+                            <div class="route">Toshkent <span style="color:var(--ink-soft);">→</span> Farg'ona</div>
+                            <div class="date">3-iyun, 2026 · 14:00</div>
+                            <div class="driver-name">Haydovchi: Otabek K. · Malibu</div>
+                        </div>
+                        <div class="trip-right">
+                            <span class="trip-status status-cancel">Bekor qilindi</span>
+                            <div class="trip-price">65 000 so'm</div>
+                        </div>
+                    </div>
+
+                    <div class="empty-state" id="trips-empty" style="display:none;">
+                        <div class="ico">🧳</div>
+                        <p>Bu toifada sayohatlar topilmadi</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="card">
+                    <h3>Tez-tez qatnaydigan yo'nalish</h3>
+                    <div class="saved-route-row">
+                        <div class="route-txt">Toshkent <span class="road-divider-mini"></span> Samarqand</div>
+                    </div>
+                    <p style="font-size:0.85rem; color:var(--ink-soft); margin-top:14px;">Bu yo'nalishda 14 marta
+                        sayohat qilgansiz. Yangi e'lonlardan birinchi bo'lib xabardor bo'lish uchun "Saqlangan
+                        yo'nalishlar" bo'limiga qo'shing.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SAVED ROUTES TAB -->
+    <div class="tab-panel" id="panel-saved">
+        <div class="card">
+            <h3>Saqlangan yo'nalishlar</h3>
+            <p style="font-size:0.86rem; color:var(--ink-soft); margin-bottom:18px;">Yoqimli yo'nalish bo'yicha yangi
+                e'lon chiqsa, sizga xabar yuboramiz.</p>
+
+            <div class="saved-route-row" data-route="1">
+                <div class="route-txt">Toshkent <span class="road-divider-mini"></span> Samarqand</div>
+                <span class="freq">14 marta qatnagan</span>
+                <button class="bell-toggle on" onclick="toggleBell(this)" title="Bildirishnoma">🔔</button>
+                <button class="remove-route-btn" onclick="removeRoute(this)">O'chirish</button>
+            </div>
+
+            <div class="saved-route-row" data-route="2">
+                <div class="route-txt">Toshkent <span class="road-divider-mini"></span> Buxoro</div>
+                <span class="freq">5 marta qatnagan</span>
+                <button class="bell-toggle" onclick="toggleBell(this)" title="Bildirishnoma">🔕</button>
+                <button class="remove-route-btn" onclick="removeRoute(this)">O'chirish</button>
+            </div>
+
+            <div class="saved-route-row" data-route="3">
+                <div class="route-txt">Samarqand <span class="road-divider-mini"></span> Buxoro</div>
+                <span class="freq">2 marta qatnagan</span>
+                <button class="bell-toggle" onclick="toggleBell(this)" title="Bildirishnoma">🔕</button>
+                <button class="remove-route-btn" onclick="removeRoute(this)">O'chirish</button>
+            </div>
+
+            <div class="empty-state" id="saved-empty" style="display:none;">
+                <div class="ico">📌</div>
+                <p>Hozircha saqlangan yo'nalish yo'q</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- REVIEWS TAB -->
+    <div class="tab-panel" id="panel-reviews">
+        <div class="card">
+            <h3>Siz qoldirgan baholar</h3>
+
+            <div class="review-item">
+                <div class="top-row">
+                    <span class="driver-nm">Jasur Normatov</span>
+                    <span class="stars">★★★★★</span>
+                </div>
+                <p>Vaqtida keldi, mashina toza va qulay edi. Yo'lda juda xushmuomala edi.</p>
+                <div class="route-sub">Samarqand → Toshkent · 29-may, 2026</div>
+            </div>
+
+            <div class="review-item">
+                <div class="top-row">
+                    <span class="driver-nm">Bekzod Tursunov</span>
+                    <span class="stars">★★★★★</span>
+                </div>
+                <p>Narx kelishilganidek bo'ldi, hech qanday qo'shimcha to'lov so'ralmadi.</p>
+                <div class="route-sub">Toshkent → Andijon · 14-may, 2026</div>
+            </div>
+
+            <div class="review-item">
+                <div class="top-row">
+                    <span class="driver-nm">Otabek Karimov</span>
+                    <span class="stars">★★★★</span>
+                </div>
+                <p>Yaxshi haydovchi, lekin biroz kechikib keldi.</p>
+                <div class="route-sub">Toshkent → Farg'ona · 2-may, 2026</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div class="tab-panel" id="panel-settings">
+        <div class="grid-2">
+            <div class="card">
+                <h3>Shaxsiy ma'lumotlar</h3>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Ism va familiya</label>
+                        <input type="text" id="set-name" value="Dilnoza Mirzayeva">
+                    </div>
+                    <div class="field">
+                        <label>Telefon raqami</label>
+                        <input type="tel" id="set-phone" value="+998 91 234 56 78">
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <input type="email" id="set-email" value="dilnoza.m@email.com">
+                    </div>
+                    <div class="field">
+                        <label>Til</label>
+                        <select id="set-lang">
+                            <option selected>O'zbek (lotin)</option>
+                            <option>O'zbek (kirill)</option>
+                            <option>Русский</option>
+                        </select>
+                    </div>
+                    <button class="save-btn" onclick="saveSettings()">O'zgarishlarni saqlash</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Bildirishnomalar</h3>
+                <div class="form-grid">
+                    <label style="display:flex; align-items:center; gap:10px; font-size:0.9rem; cursor:pointer;">
+                        <input type="checkbox" checked style="width:18px; height:18px; accent-color:var(--orange);">
+                        Buyurtma tasdiqlanganda xabar
+                    </label>
+                    <label style="display:flex; align-items:center; gap:10px; font-size:0.9rem; cursor:pointer;">
+                        <input type="checkbox" checked style="width:18px; height:18px; accent-color:var(--orange);">
+                        Saqlangan yo'nalishda yangi e'lon
+                    </label>
+                    <label style="display:flex; align-items:center; gap:10px; font-size:0.9rem; cursor:pointer;">
+                        <input type="checkbox" style="width:18px; height:18px; accent-color:var(--orange);"> Aksiya va
+                        chegirmalar haqida
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Rating Modal -->
+<div class="modal-overlay" id="rating-modal">
+    <div class="modal-box">
+        <h3 id="modal-driver-name">Haydovchiga baho bering</h3>
+        <div class="sub" id="modal-route-name">Yo'nalish</div>
+        <div class="star-picker" id="star-picker">
+            <span data-val="1">★</span>
+            <span data-val="2">★</span>
+            <span data-val="3">★</span>
+            <span data-val="4">★</span>
+            <span data-val="5">★</span>
+        </div>
+        <textarea placeholder="Sayohat haqida fikringiz (ixtiyoriy)..."></textarea>
+        <div class="modal-actions">
+            <button class="modal-cancel" onclick="closeRatingModal()">Bekor qilish</button>
+            <button class="modal-confirm" onclick="submitRating()">Yuborish</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    // ---------- Tabs ----------
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+        });
+    });
+
+    // ---------- Trip filter ----------
+    document.querySelectorAll('.trip-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.trip-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            const items = document.querySelectorAll('.trip-item');
+            let visibleCount = 0;
+            items.forEach(item => {
+                const match = filter === 'all' || item.dataset.status === filter;
+                item.classList.toggle('hidden', !match);
+                if (match) visibleCount++;
+            });
+            document.getElementById('trips-empty').style.display = visibleCount === 0 ? 'block' : 'none';
+        });
+    });
+
+    // ---------- Saved routes: bell toggle + remove ----------
+    function toggleBell(btn) {
+        btn.classList.toggle('on');
+        btn.textContent = btn.classList.contains('on') ? '🔔' : '🔕';
+        showToast(btn.classList.contains('on') ? 'Bildirishnoma yoqildi' : 'Bildirishnoma o\'chirildi');
+    }
+
+    function removeRoute(btn) {
+        const row = btn.closest('.saved-route-row');
+        row.style.opacity = '0';
+        row.style.transform = 'translateX(10px)';
+        setTimeout(() => {
+            row.remove();
+            if (!document.querySelector('.saved-route-row')) {
+                document.getElementById('saved-empty').style.display = 'block';
+            }
+            showToast('Yo\'nalish o\'chirildi');
+        }, 200);
+    }
+
+    // ---------- Rating modal ----------
+    let currentRating = 0;
+
+    function openRatingModal(driverName, routeName) {
+        document.getElementById('modal-driver-name').textContent = driverName + 'ga baho bering';
+        document.getElementById('modal-route-name').textContent = routeName;
+        currentRating = 0;
+        document.querySelectorAll('#star-picker span').forEach(s => s.classList.remove('active'));
+        document.getElementById('rating-modal').classList.add('show');
+    }
+
+    function closeRatingModal() {
+        document.getElementById('rating-modal').classList.remove('show');
+    }
+
+    document.querySelectorAll('#star-picker span').forEach(star => {
+        star.addEventListener('click', () => {
+            currentRating = parseInt(star.dataset.val);
+            document.querySelectorAll('#star-picker span').forEach(s => {
+                s.classList.toggle('active', parseInt(s.dataset.val) <= currentRating);
+            });
+        });
+    });
+
+    function submitRating() {
+        if (currentRating === 0) {
+            showToast('Iltimos, yulduzlardan birini tanlang');
+            return;
+        }
+        closeRatingModal();
+        showToast('Rahmat! Bahoyingiz yuborildi ✓');
+    }
+
+    document.getElementById('rating-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'rating-modal') closeRatingModal();
+    });
+
+    // ---------- Settings save ----------
+    function saveSettings() {
+        const name = document.getElementById('set-name').value.trim();
+        const phone = document.getElementById('set-phone').value.trim();
+        const email = document.getElementById('set-email').value.trim();
+        if (!name || !phone || !email) {
+            showToast('Iltimos, barcha maydonlarni to\'ldiring');
+            return;
+        }
+        document.querySelector('.profile-header h1').textContent = name;
+        document.querySelector('.profile-header .avatar-big').textContent =
+            name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        showToast('Ma\'lumotlar saqlandi ✓');
+    }
+
+    // ---------- Language switch ----------
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+
+    // ---------- Toast ----------
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+    }
+</script>
+
+</body>
+</html>

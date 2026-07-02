@@ -50,7 +50,6 @@ class User(AbstractUser):
         DRIVER = 'driver','Driver'
         ADMIN = 'admin','Admin'
     username = None
-    password = None
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = []
     objects = CustomUserManager()

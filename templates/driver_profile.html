@@ -454,6 +454,69 @@
                 grid-template-columns:1fr 1fr;
             }
         }
+
+        .switch-mini {
+            position: relative;
+            width: 42px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch-mini input {
+            display: none;
+        }
+
+        .switch-mini .slider-mini {
+            position: absolute;
+            inset: 0;
+            background: var(--line);
+            border-radius: 999px;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+        .switch-mini .slider-mini::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: .2s;
+        }
+
+        .switch-mini input:checked + .slider-mini {
+            background: var(--green);
+        }
+
+        .switch-mini input:checked + .slider-mini::before {
+            transform: translateX(18px);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--ink);
+            color: white;
+            padding: 13px 22px;
+            border-radius: 999px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lift);
+            opacity: 0;
+            pointer-events: none;
+            transition: .25s;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -485,8 +548,8 @@
     </div>
 
     <div class="role-tabs">
-        <button class="active">🚗 Haydovchi profili</button>
-        <button>🧳 Yo'lovchi profili</button>
+        <button class="active" id="tab-driver">🚗 Haydovchi profili</button>
+        <button id="tab-passenger">🧳 Yo'lovchi profili</button>
     </div>
 
     <div class="grid-2">
@@ -568,11 +631,67 @@
                 <div class="car-summary">
                     <div class="car-ico">🚙</div>
                     <div>
-                        <div class="car-name">Chevrolet Cobalt</div>
-                        <div class="car-plate">01 A 123 BC · Sedan · Klimat-kontrol bor</div>
+                        <div class="car-name" id="car-name-display">Chevrolet Cobalt</div>
+                        <div class="car-plate" id="car-plate-display">01 A 123 BC · Sedan · Klimat-kontrol bor</div>
                     </div>
                 </div>
-                <button class="edit-btn" style="width:100%;">Mashina ma'lumotlarini tahrirlash</button>
+                <button class="edit-btn" id="edit-car-btn" style="width:100%;">Mashina ma'lumotlarini tahrirlash
+                </button>
+                <div class="form-grid" id="car-edit-form" style="display:none; margin-top:16px;">
+                    <div class="field">
+                        <label>Mashina markasi va modeli</label>
+                        <input type="text" id="edit-car-model" value="Chevrolet Cobalt">
+                    </div>
+                    <div class="field">
+                        <label>Davlat raqami</label>
+                        <input type="text" id="edit-car-plate-num" value="01 A 123 BC">
+                    </div>
+                    <div class="field">
+                        <label>Mashina turi</label>
+                        <select id="edit-car-type">
+                            <option>Sedan</option>
+                            <option>Monovolume</option>
+                            <option>Universal</option>
+                        </select>
+                    </div>
+                    <label style="display:flex; align-items:center; gap:10px; font-size:0.88rem; cursor:pointer;">
+                        <input type="checkbox" id="edit-car-ac" checked
+                               style="width:17px; height:17px; accent-color:var(--orange);"> Klimat-kontrol bor
+                    </label>
+                    <button class="save-btn" id="save-car-btn"
+                            style="background:var(--orange); color:white; border:none; border-radius:var(--radius-sm); padding:13px; font-weight:700; font-size:0.88rem;">
+                        Saqlash
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Faol e'lonlar <span
+                        style="font-size:0.78rem; color:var(--ink-soft); font-weight:500;">(18 ta)</span></h3>
+                <div class="doc-row" data-listing="1">
+                    <div class="doc-ico">🛣️</div>
+                    <div class="doc-info">
+                        <div class="doc-name">Toshkent → Samarqand</div>
+                        <div class="doc-sub">22-iyun, 09:30 · 3 joy bo'sh · 85 000 so'm</div>
+                    </div>
+                    <label class="switch-mini">
+                        <input type="checkbox" checked onchange="toggleListing(this)">
+                        <span class="slider-mini"></span>
+                    </label>
+                </div>
+                <div class="doc-row" data-listing="2">
+                    <div class="doc-ico">🛣️</div>
+                    <div class="doc-info">
+                        <div class="doc-name">Toshkent → Buxoro</div>
+                        <div class="doc-sub">23-iyun, 07:00 · 1 joy bo'sh · 110 000 so'm</div>
+                    </div>
+                    <label class="switch-mini">
+                        <input type="checkbox" checked onchange="toggleListing(this)">
+                        <span class="slider-mini"></span>
+                    </label>
+                </div>
+                <a href="05_elon_joylash.html" class="edit-btn"
+                   style="width:100%; display:block; text-align:center; margin-top:8px;">+ Yangi e'lon qo'shish</a>
             </div>
 
             <div class="card">
@@ -600,20 +719,24 @@
                 <div class="form-grid">
                     <div class="field">
                         <label>Ism va familiya</label>
-                        <input type="text" value="Jasur Normatov">
+                        <input type="text" id="set-name" value="Jasur Normatov">
                     </div>
                     <div class="field">
                         <label>Email</label>
-                        <input type="email" value="jasur.n@email.com">
+                        <input type="email" id="set-email" value="jasur.n@email.com">
                     </div>
                     <div class="field">
                         <label>Til</label>
-                        <select>
+                        <select id="set-lang">
                             <option>O'zbek (lotin)</option>
                             <option>O'zbek (kirill)</option>
                             <option>Русский</option>
                         </select>
                     </div>
+                    <button class="save-btn" id="save-personal-btn"
+                            style="background:var(--orange); color:white; border:none; border-radius:var(--radius-sm); padding:13px; font-weight:700; font-size:0.9rem;">
+                        O'zgarishlarni saqlash
+                    </button>
                 </div>
             </div>
         </div>
@@ -621,6 +744,102 @@
     </div>
 
 </div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+    }
+
+    // ---------- Role tab: switch to passenger profile page ----------
+    document.getElementById('tab-passenger').addEventListener('click', () => {
+        window.location.href = '08_yolovchi_profili.html';
+    });
+    document.getElementById('tab-driver').addEventListener('click', (e) => {
+        // already on driver profile - just confirm active state
+        document.getElementById('tab-driver').classList.add('active');
+        document.getElementById('tab-passenger').classList.remove('active');
+    });
+
+    // ---------- Language switch ----------
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+
+    // ---------- Edit profile header button scrolls to + focuses personal info ----------
+    document.querySelector('.profile-header .edit-btn').addEventListener('click', () => {
+        document.getElementById('set-name').closest('.card').scrollIntoView({behavior: 'smooth', block: 'center'});
+        setTimeout(() => document.getElementById('set-name').focus(), 400);
+    });
+
+    // ---------- Car edit toggle ----------
+    const editCarBtn = document.getElementById('edit-car-btn');
+    const carEditForm = document.getElementById('car-edit-form');
+    editCarBtn.addEventListener('click', () => {
+        const showing = carEditForm.style.display !== 'none';
+        carEditForm.style.display = showing ? 'none' : 'block';
+        editCarBtn.textContent = showing ? "Mashina ma'lumotlarini tahrirlash" : 'Yopish';
+    });
+
+    document.getElementById('save-car-btn').addEventListener('click', () => {
+        const model = document.getElementById('edit-car-model').value.trim();
+        const plate = document.getElementById('edit-car-plate-num').value.trim();
+        const type = document.getElementById('edit-car-type').value;
+        const ac = document.getElementById('edit-car-ac').checked;
+
+        if (!model || !plate) {
+            showToast("Mashina markasi va davlat raqamini to'ldiring");
+            return;
+        }
+
+        document.getElementById('car-name-display').textContent = model;
+        document.getElementById('car-plate-display').textContent =
+            plate + ' · ' + type + (ac ? ' · Klimat-kontrol bor' : '');
+
+        carEditForm.style.display = 'none';
+        editCarBtn.textContent = "Mashina ma'lumotlarini tahrirlash";
+        showToast("Mashina ma'lumotlari saqlandi ✓");
+    });
+
+    // ---------- Listing toggle (faollashtirish / o'chirish) ----------
+    function toggleListing(checkbox) {
+        const row = checkbox.closest('.doc-row');
+        const name = row.querySelector('.doc-name').textContent;
+        showToast(checkbox.checked
+            ? `"${name}" e'loni qidiruv natijalarida ko'rinadi`
+            : `"${name}" e'loni yashirildi`);
+    }
+
+    // ---------- Personal info save ----------
+    document.getElementById('save-personal-btn').addEventListener('click', () => {
+        const name = document.getElementById('set-name').value.trim();
+        const email = document.getElementById('set-email').value.trim();
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        if (!name) {
+            showToast('Ism va familiyani kiriting');
+            return;
+        }
+        if (!emailOk) {
+            showToast("To'g'ri email manzil kiriting");
+            return;
+        }
+
+        document.querySelector('.profile-header h1').childNodes[0].textContent = name + ' ';
+        document.querySelector('.profile-header .avatar-big').textContent =
+            name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+        showToast("Shaxsiy ma'lumotlar saqlandi ✓");
+    });
+</script>
 
 </body>
 </html>

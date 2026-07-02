@@ -18,6 +18,7 @@
             --sky: #2D9CDB;
             --sky-deep: #2387BE;
             --green: #27AE60;
+            --red: #E0524C;
             --line: #E7E2D6;
             --radius-lg: 20px;
             --radius-md: 14px;
@@ -129,6 +130,7 @@
             border-radius: var(--radius-lg);
             overflow: hidden;
             box-shadow: var(--shadow-lift);
+            align-items: start;
         }
 
         .auth-art {
@@ -140,6 +142,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            align-self: stretch;
         }
 
         .auth-art::before {
@@ -157,12 +160,14 @@
             font-size: 1.6rem;
             line-height: 1.25;
             margin-bottom: 14px;
+            transition: opacity .2s;
         }
 
         .auth-art p {
             color: #C7D2D6;
             font-size: 0.92rem;
             max-width: 300px;
+            transition: opacity .2s;
         }
 
         .auth-art-illustration {
@@ -201,8 +206,12 @@
             margin-bottom: 2px;
         }
 
+        .feature-list {
+            transition: opacity .2s;
+        }
+
         .auth-form-side {
-            padding: 48px 44px;
+            padding: 44px 44px 48px;
         }
 
         .role-toggle {
@@ -211,7 +220,7 @@
             background: var(--cream);
             border-radius: 999px;
             padding: 5px;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
         .role-toggle button {
@@ -233,18 +242,39 @@
         }
 
         .auth-form-side h1 {
-            font-size: 1.55rem;
-            margin-bottom: 8px;
+            font-size: 1.5rem;
+            margin-bottom: 6px;
         }
 
         .auth-form-side .sub {
             color: var(--ink-soft);
-            font-size: 0.92rem;
-            margin-bottom: 28px;
+            font-size: 0.9rem;
+            margin-bottom: 26px;
+            line-height: 1.5;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: fadeIn .25s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .field {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .field label {
@@ -264,11 +294,16 @@
             font-family: inherit;
             color: var(--ink);
             background: var(--cream);
+            transition: border-color .15s;
         }
 
         .field input:focus, .field select:focus {
             border-color: var(--sky);
             background: white;
+        }
+
+        .field input.invalid {
+            border-color: var(--red);
         }
 
         .field-hint {
@@ -293,6 +328,70 @@
             flex-shrink: 0;
         }
 
+        /* Role-specific field groups: only the active role's group is in the DOM-visible flow */
+        .role-fields {
+            display: none;
+        }
+
+        .role-fields.show {
+            display: block;
+            animation: fadeIn .25s ease;
+        }
+
+        .group-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .group-label.passenger-label {
+            color: var(--sky);
+        }
+
+        .group-label.driver-label {
+            color: var(--orange);
+        }
+
+        .group-divider {
+            border-top: 1px dashed var(--line);
+            margin: 22px 0 20px;
+            padding-top: 0;
+        }
+
+        .upload-box {
+            border: 1.5px dashed var(--line);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            text-align: center;
+            background: var(--cream);
+            color: var(--ink-soft);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: border-color .15s, background .15s;
+        }
+
+        .upload-box:hover {
+            border-color: var(--sky);
+        }
+
+        .upload-box.uploaded {
+            border-color: var(--green);
+            background: #E3F6EA;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .upload-box .ico {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
         .otp-row {
             display: flex;
             gap: 10px;
@@ -309,6 +408,7 @@
             font-weight: 800;
             font-family: 'Manrope';
             background: var(--cream);
+            transition: border-color .15s, background .15s;
         }
 
         .otp-box:focus {
@@ -316,15 +416,28 @@
             background: white;
         }
 
+        .otp-box.filled {
+            border-color: var(--green);
+            background: white;
+        }
+
         .otp-resend {
             font-size: 0.85rem;
             color: var(--ink-soft);
             margin-top: 10px;
+            margin-bottom: 6px;
         }
 
-        .otp-resend b {
+        .otp-resend .resend-link {
             color: var(--orange);
             cursor: pointer;
+            font-weight: 700;
+        }
+
+        .otp-resend .resend-link.disabled {
+            color: var(--ink-soft);
+            cursor: default;
+            font-weight: 600;
         }
 
         .btn-submit {
@@ -338,26 +451,41 @@
             font-size: 0.98rem;
             margin-top: 8px;
             box-shadow: 0 8px 20px rgba(255, 107, 53, 0.32);
+            transition: background .15s, transform .1s;
         }
 
         .btn-submit:hover {
             background: var(--orange-deep);
         }
 
-        .divider-or {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 24px 0;
-            color: var(--ink-soft);
-            font-size: 0.82rem;
+        .btn-submit:active {
+            transform: scale(0.98);
         }
 
-        .divider-or::before, .divider-or::after {
-            content: '';
-            flex: 1;
-            height: 1px;
+        .btn-submit:disabled {
             background: var(--line);
+            color: var(--ink-soft);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .btn-back {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--ink-soft);
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-back:hover {
+            color: var(--ink);
         }
 
         .switch-mode {
@@ -373,37 +501,44 @@
             font-weight: 700;
         }
 
-        .driver-extra {
-            border-top: 1px dashed var(--line);
-            margin-top: 22px;
-            padding-top: 22px;
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #E3F6EA;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 18px;
         }
 
-        .driver-extra .group-label {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--orange);
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            margin-bottom: 14px;
-            display: block;
-        }
-
-        .upload-box {
-            border: 1.5px dashed var(--line);
-            border-radius: var(--radius-sm);
-            padding: 20px;
+        .step-success {
             text-align: center;
-            background: var(--cream);
-            color: var(--ink-soft);
-            font-size: 0.85rem;
-            cursor: pointer;
         }
 
-        .upload-box .ico {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-            display: block;
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--ink);
+            color: white;
+            padding: 13px 22px;
+            border-radius: 999px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lift);
+            opacity: 0;
+            pointer-events: none;
+            transition: .25s;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
         @media (max-width: 860px) {
@@ -432,10 +567,10 @@
 
         <div class="auth-art">
             <div class="auth-art-illustration">
-                <h2>Yo'lga xavfsiz va xotirjam chiqing</h2>
-                <p>Har bir haydovchi hujjatlari tekshirilgan, har bir narx oldindan ko'rsatilgan.</p>
+                <h2 id="art-title">Yo'lga xavfsiz va xotirjam chiqing</h2>
+                <p id="art-sub">Har bir haydovchi hujjatlari tekshirilgan, har bir narx oldindan ko'rsatilgan.</p>
             </div>
-            <div>
+            <div class="feature-list" id="feature-list-passenger">
                 <div class="feature-row">
                     <div class="ico">🛡️</div>
                     <div class="txt"><b>Tasdiqlangan haydovchilar</b>Hujjatlar admin tomonidan qo'lda tekshiriladi</div>
@@ -449,128 +584,401 @@
                     <div class="txt"><b>Haqiqiy sharhlar</b>Faqat sayohat qilgan foydalanuvchilar baho qoldiradi</div>
                 </div>
             </div>
+            <div class="feature-list" id="feature-list-driver" style="display:none;">
+                <div class="feature-row">
+                    <div class="ico">💰</div>
+                    <div class="txt"><b>5-10% komissiya</b>Faqat amalga oshgan buyurtmadan, oldindan to'lov yo'q</div>
+                </div>
+                <div class="feature-row">
+                    <div class="ico">🧳</div>
+                    <div class="txt"><b>O'zingiz tanlaysiz</b>Yo'lovchilarni reyting va talabga qarab o'zingiz
+                        belgilaysiz
+                    </div>
+                </div>
+                <div class="feature-row">
+                    <div class="ico">⚡</div>
+                    <div class="txt"><b>Tezkor e'lon</b>Yo'nalishni belgilang — bo'sh joylar tez to'ladi</div>
+                </div>
+            </div>
         </div>
 
         <div class="auth-form-side">
-            <div class="role-toggle">
-                <button class="active">Yo'lovchiman</button>
-                <button>Haydovchiman</button>
-            </div>
 
-            <h1>Hisobga kirish</h1>
-            <div class="sub">Telefon raqamingizni kiriting, tasdiqlash kodi email orqali yuboriladi</div>
-
-            <!-- Step 1: phone + email -->
-            <div class="field">
-                <label>Telefon raqami</label>
-                <div class="phone-field">
-                    <div class="phone-prefix">+998</div>
-                    <input type="tel" placeholder="90 123 45 67">
+            <!-- ============ STEP 1: role + basic info ============ -->
+            <div class="form-step active" id="step-form">
+                <div class="role-toggle">
+                    <button class="active" data-role="passenger">Yo'lovchiman</button>
+                    <button data-role="driver">Haydovchiman</button>
                 </div>
-            </div>
-            <div class="field">
-                <label>Email manzil</label>
-                <input type="email" placeholder="sizning@email.com">
-                <div class="field-hint">Tasdiqlash kodi shu email manzilga yuboriladi</div>
-            </div>
-            <div class="field">
-                <label>Ism va familiya</label>
-                <input type="text" placeholder="Ism Familiya">
-            </div>
-            <div class="field">
-                <label>Til</label>
-                <select>
-                    <option>O'zbek (lotin)</option>
-                    <option>O'zbek (kirill)</option>
-                    <option>Русский</option>
-                </select>
-            </div>
 
-            <!-- Driver-only extra fields (shown when "Haydovchiman" selected) -->
-            <div class="driver-extra">
-                <span class="group-label">Haydovchi ma'lumotlari</span>
+                <h1 id="form-title">Yo'lovchi sifatida ro'yxatdan o'ting</h1>
+                <div class="sub" id="form-sub">Telefon raqamingiz va email manzilingizni kiriting — tasdiqlash kodi
+                    email orqali yuboriladi.
+                </div>
+
+                <!-- Common fields (both roles) -->
                 <div class="field">
-                    <label>Mashina markasi va modeli</label>
-                    <input type="text" placeholder="Masalan: Chevrolet Cobalt">
+                    <label>Ism va familiya</label>
+                    <input type="text" id="full-name" placeholder="Ism Familiya">
                 </div>
                 <div class="field">
-                    <label>Davlat raqami</label>
-                    <input type="text" placeholder="01 A 123 BC">
-                </div>
-                <div class="field">
-                    <label>Haydovchilik guvohnomasi</label>
-                    <div class="upload-box">
-                        <span class="ico">📄</span>
-                        Rasm yuklash uchun bosing yoki shu yerga tashlang
+                    <label>Telefon raqami</label>
+                    <div class="phone-field">
+                        <div class="phone-prefix">+998</div>
+                        <input type="tel" id="phone-input" placeholder="90 123 45 67" maxlength="9" inputmode="numeric">
                     </div>
                 </div>
-            </div>
-
-            <button class="btn-submit">Tasdiqlash kodini yuborish</button>
-
-            <div class="divider-or">yoki</div>
-
-            <!-- Step 2: OTP entry (shown after code sent) -->
-            <div class="field">
-                <label>Email orqali yuborilgan 6 xonali kod</label>
-                <div class="otp-row">
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
-                    <input class="otp-box" maxlength="1" inputmode="numeric">
+                <div class="field">
+                    <label>Email manzil</label>
+                    <input type="email" id="email-input" placeholder="sizning@email.com">
+                    <div class="field-hint">Tasdiqlash kodi shu email manzilga yuboriladi</div>
                 </div>
-                <div class="otp-resend">
-                    Kod kelmadimi?
-                    <b id="resend-timer">59 soniyadan keyin qayta yuborish</b>
+                <div class="field">
+                    <label>Til</label>
+                    <select id="lang-select">
+                        <option>O'zbek (lotin)</option>
+                        <option>O'zbek (kirill)</option>
+                        <option>Русский</option>
+                    </select>
                 </div>
 
-            </div>
-            <button class="btn-submit">Tasdiqlash va kirish</button>
+                <!-- PASSENGER-ONLY fields -->
+                <div class="role-fields show" id="passenger-fields">
+                    <div class="group-divider"></div>
+                    <div class="group-label passenger-label">🧳 Yo'lovchi ma'lumotlari</div>
+                    <div class="field">
+                        <label>Eng ko'p qatnaydigan yo'nalish (ixtiyoriy)</label>
+                        <select>
+                            <option value="">Tanlanmagan</option>
+                            <option>Toshkent → Samarqand</option>
+                            <option>Toshkent → Buxoro</option>
+                            <option>Toshkent → Farg'ona</option>
+                            <option>Toshkent → Andijon</option>
+                        </select>
+                        <div class="field-hint">Shu yo'nalishda yangi e'lon chiqsa, sizga xabar beramiz</div>
+                    </div>
+                </div>
 
-            <div class="switch-mode">Hisobingiz yo'qmi? <b>Ro'yxatdan o'tish</b></div>
+                <!-- DRIVER-ONLY fields -->
+                <div class="role-fields" id="driver-fields">
+                    <div class="group-divider"></div>
+                    <div class="group-label driver-label">🚗 Haydovchi ma'lumotlari</div>
+                    <div class="field">
+                        <label>Mashina markasi va modeli</label>
+                        <input type="text" id="car-model" placeholder="Masalan: Chevrolet Cobalt">
+                    </div>
+                    <div class="field">
+                        <label>Davlat raqami</label>
+                        <input type="text" id="car-plate" placeholder="01 A 123 BC">
+                    </div>
+                    <div class="field">
+                        <label>Mashina turi</label>
+                        <select id="car-type">
+                            <option>Sedan</option>
+                            <option>Monovolume</option>
+                            <option>Universal</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Haydovchilik guvohnomasi (rasm)</label>
+                        <div class="upload-box" id="license-upload">
+                            <span class="ico">📄</span>
+                            <span id="upload-text">Rasm yuklash uchun bosing yoki shu yerga tashlang</span>
+                        </div>
+                        <div class="field-hint">Hujjat admin tomonidan tekshirilgandan keyin e'lon joylash imkoni
+                            ochiladi
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-submit" id="send-code-btn">Tasdiqlash kodini yuborish</button>
+                <div class="switch-mode">Hisobingiz bormi? <b id="go-login">Kirish</b></div>
+            </div>
+
+            <!-- ============ STEP 2: OTP ============ -->
+            <div class="form-step" id="step-otp">
+                <h1 id="otp-title" style="font-size:1.4rem;">Kodni tasdiqlang</h1>
+                <div class="sub"><b id="email-display" style="color:var(--ink);">email@example.com</b> manziliga 6
+                    xonali kod yuborildi.
+                </div>
+
+                <div class="field">
+                    <label>Tasdiqlash kodi</label>
+                    <div class="otp-row">
+                        <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="0">
+                        <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="1">
+                        <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="2">
+                        <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="3">
+                        <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="4">
+                        <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="5">
+                    </div>
+                    <div class="otp-resend">
+                        Kod kelmadimi? <span class="resend-link disabled" id="resend-link">Qayta yuborish (<span
+                            id="resend-timer">59</span>s)</span>
+                    </div>
+                </div>
+
+                <button class="btn-submit" id="verify-btn" disabled>Tasdiqlash va ro'yxatdan o'tish</button>
+                <button class="btn-back" id="back-btn">← Orqaga qaytish</button>
+            </div>
+
+            <!-- ============ STEP 3: success ============ -->
+            <div class="form-step step-success" id="step-success">
+                <div class="success-icon">✓</div>
+                <h1 style="font-size:1.4rem;">Xush kelibsiz!</h1>
+                <div class="sub" id="success-sub">Ro'yxatdan muvaffaqiyatli o'tdingiz. Hozir profilingizga
+                    yo'naltirilasiz.
+                </div>
+                <a href="08_yolovchi_profili.html" class="btn-submit" id="success-link"
+                   style="display:block; text-align:center;">Profilimga o'tish</a>
+            </div>
+
         </div>
 
     </div>
 </div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    // ---------- Toast ----------
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+    }
 
-        let seconds = 59;
-        const timer = document.getElementById("resend-timer");
+    function goToStep(id) {
+        document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
 
-        const countdown = setInterval(function () {
-
-            timer.textContent = `${seconds} soniyadan keyin qayta yuborish`;
-
-            if (seconds <= 0) {
-                clearInterval(countdown);
-
-                timer.textContent = "Qayta yuborish";
-                timer.style.color = "#2563eb";
-                timer.style.cursor = "pointer";
-
-                timer.addEventListener("click", function () {
-
-                    // Django resend OTP URL
-                    window.location.href = "/resend-otp/";
-
-                    // yoki AJAX ishlatsangiz shu yerga yozasiz
-                });
-            }
-
-            seconds--;
-
-        }, 1000);
-
+    // ---------- Language switch (top bar) ----------
+    document.querySelectorAll('.top-logo .lang-switch button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.top-logo .lang-switch button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
     });
+
+    // ---------- ROLE TOGGLE: swap which field-group is shown ----------
+    let currentRole = 'passenger';
+    const roleButtons = document.querySelectorAll('.role-toggle button');
+    const passengerFields = document.getElementById('passenger-fields');
+    const driverFields = document.getElementById('driver-fields');
+    const formTitle = document.getElementById('form-title');
+    const formSub = document.getElementById('form-sub');
+    const artTitle = document.getElementById('art-title');
+    const artSub = document.getElementById('art-sub');
+    const featurePassenger = document.getElementById('feature-list-passenger');
+    const featureDriver = document.getElementById('feature-list-driver');
+
+    function applyRole(role) {
+        currentRole = role;
+        roleButtons.forEach(b => b.classList.toggle('active', b.dataset.role === role));
+
+        if (role === 'driver') {
+            // Show ONLY driver fields, hide passenger fields completely
+            passengerFields.classList.remove('show');
+            driverFields.classList.add('show');
+            formTitle.textContent = "Haydovchi sifatida ro'yxatdan o'ting";
+            formSub.textContent = "Yo'lovchi tashish uchun mashina va hujjat ma'lumotlarini kiriting. Hujjat admin tomonidan tekshiriladi.";
+            artTitle.textContent = "Bo'sh joylarni yo'lovchilar bilan to'ldiring";
+            artSub.textContent = "Mashinangiz ma'lumotlarini kiriting — yo'lovchilar sizni qidiruv natijalarida ko'radi.";
+            featurePassenger.style.display = 'none';
+            featureDriver.style.display = 'block';
+        } else {
+            // Show ONLY passenger fields, hide driver fields completely
+            driverFields.classList.remove('show');
+            passengerFields.classList.add('show');
+            formTitle.textContent = "Yo'lovchi sifatida ro'yxatdan o'ting";
+            formSub.textContent = "Telefon raqamingiz va email manzilingizni kiriting — tasdiqlash kodi email orqali yuboriladi.";
+            artTitle.textContent = "Yo'lga xavfsiz va xotirjam chiqing";
+            artSub.textContent = "Har bir haydovchi hujjatlari tekshirilgan, har bir narx oldindan ko'rsatilgan.";
+            featureDriver.style.display = 'none';
+            featurePassenger.style.display = 'block';
+        }
+    }
+
+    roleButtons.forEach(btn => {
+        btn.addEventListener('click', () => applyRole(btn.dataset.role));
+    });
+
+    // ---------- Upload box ----------
+    const uploadBox = document.getElementById('license-upload');
+    uploadBox.addEventListener('click', () => {
+        uploadBox.classList.add('uploaded');
+        document.getElementById('upload-text').textContent = "✓ guvohnoma.jpg yuklandi";
+        showToast("Hujjat yuklandi (demo)");
+    });
+
+    // ---------- Validation helpers ----------
+    const phoneInput = document.getElementById('phone-input');
+    const emailInput = document.getElementById('email-input');
+    const nameInput = document.getElementById('full-name');
+
+    phoneInput.addEventListener('input', () => {
+        phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 9);
+    });
+
+    function validateField(input, isValid) {
+        input.classList.toggle('invalid', !isValid);
+        return isValid;
+    }
+
+    // ---------- STEP 1 -> send code ----------
+    document.getElementById('send-code-btn').addEventListener('click', () => {
+        const nameOk = validateField(nameInput, nameInput.value.trim().length >= 3);
+        const phoneOk = validateField(phoneInput, phoneInput.value.replace(/\D/g, '').length === 9);
+        const emailOk = validateField(emailInput, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim()));
+
+        if (!nameOk) {
+            showToast("Ism va familiyangizni kiriting");
+            return;
+        }
+        if (!phoneOk) {
+            showToast("To'liq telefon raqamini kiriting (9 raqam)");
+            return;
+        }
+        if (!emailOk) {
+            showToast("To'g'ri email manzil kiriting");
+            return;
+        }
+
+        if (currentRole === 'driver') {
+            const carOk = validateField(document.getElementById('car-model'), document.getElementById('car-model').value.trim().length > 1);
+            const plateOk = validateField(document.getElementById('car-plate'), document.getElementById('car-plate').value.trim().length > 3);
+            if (!carOk) {
+                showToast("Mashina markasi va modelini kiriting");
+                return;
+            }
+            if (!plateOk) {
+                showToast("Davlat raqamini kiriting");
+                return;
+            }
+            if (!uploadBox.classList.contains('uploaded')) {
+                showToast("Haydovchilik guvohnomasi rasmini yuklang");
+                return;
+            }
+        }
+
+        document.getElementById('email-display').textContent = emailInput.value.trim();
+        document.getElementById('otp-title').textContent = currentRole === 'driver'
+            ? "Haydovchi sifatida tasdiqlash"
+            : "Kodni tasdiqlang";
+        document.getElementById('success-sub').textContent = currentRole === 'driver'
+            ? "Ro'yxatdan o'tdingiz! Hujjatlaringiz admin tomonidan tekshirilgach, e'lon joylash imkoni ochiladi."
+            : "Ro'yxatdan muvaffaqiyatli o'tdingiz. Hozir profilingizga yo'naltirilasiz.";
+        document.getElementById('success-link').href = currentRole === 'driver'
+            ? '04_profil.html'
+            : '08_yolovchi_profili.html';
+
+        goToStep('step-otp');
+        startResendTimer();
+        showToast('Tasdiqlash kodi yuborildi ✓');
+        setTimeout(() => document.querySelector('.otp-box[data-idx="0"]').focus(), 300);
+    });
+
+    // ---------- STEP 2: OTP boxes ----------
+    const otpBoxes = Array.from(document.querySelectorAll('.otp-box'));
+    const verifyBtn = document.getElementById('verify-btn');
+
+    function checkOtpComplete() {
+        const complete = otpBoxes.every(b => b.value.length === 1);
+        verifyBtn.disabled = !complete;
+        return complete;
+    }
+
+    otpBoxes.forEach((box, i) => {
+        box.addEventListener('input', () => {
+            box.value = box.value.replace(/\D/g, '').slice(0, 1);
+            box.classList.toggle('filled', box.value.length === 1);
+            if (box.value && i < otpBoxes.length - 1) {
+                otpBoxes[i + 1].focus();
+            }
+            checkOtpComplete();
+        });
+        box.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !box.value && i > 0) {
+                otpBoxes[i - 1].focus();
+            }
+        });
+        box.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+            text.split('').forEach((ch, idx) => {
+                if (otpBoxes[idx]) {
+                    otpBoxes[idx].value = ch;
+                    otpBoxes[idx].classList.add('filled');
+                }
+            });
+            checkOtpComplete();
+            if (text.length === 6) otpBoxes[5].focus();
+        });
+    });
+
+    // ---------- Resend timer ----------
+    let resendInterval;
+
+    function startResendTimer() {
+        let seconds = 59;
+        const link = document.getElementById('resend-link');
+        link.innerHTML = 'Qayta yuborish (<span id="resend-timer">59</span>s)';
+        link.classList.add('disabled');
+        clearInterval(resendInterval);
+        resendInterval = setInterval(() => {
+            seconds--;
+            const ts = document.getElementById('resend-timer');
+            if (ts) ts.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(resendInterval);
+                link.textContent = 'Kodni qayta yuborish';
+                link.classList.remove('disabled');
+                link.onclick = () => {
+                    showToast('Yangi kod yuborildi ✓');
+                    otpBoxes.forEach(b => {
+                        b.value = '';
+                        b.classList.remove('filled');
+                    });
+                    checkOtpComplete();
+                    otpBoxes[0].focus();
+                    startResendTimer();
+                };
+            }
+        }, 1000);
+    }
+
+    // ---------- Verify ----------
+    verifyBtn.addEventListener('click', () => {
+        if (!checkOtpComplete()) return;
+        clearInterval(resendInterval);
+        goToStep('step-success');
+    });
+
+    document.getElementById('back-btn').addEventListener('click', () => {
+        clearInterval(resendInterval);
+        goToStep('step-form');
+    });
+
+    document.getElementById('go-login').addEventListener('click', () => {
+        window.location.href = '07_login.html';
+    });
+
+    // Enter key submits current step
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter') return;
+        if (document.getElementById('step-form').classList.contains('active')) {
+            document.getElementById('send-code-btn').click();
+        } else if (document.getElementById('step-otp').classList.contains('active')) {
+            if (!verifyBtn.disabled) verifyBtn.click();
+        }
+    });
+
+    // Initialize default role view
+    applyRole('passenger');
 </script>
 
 </body>
 </html>
-
-
-
-
-

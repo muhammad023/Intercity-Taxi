@@ -1,1128 +1,584 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yo'lda — Viloyatlararo yo'lovchi tashish xizmati</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet">
-    <style>
-        :root {
-            --ink: #1A2E35;
-            --ink-soft: #4A5C63;
-            --paper: #FFFFFF;
-            --cream: #F7F4ED;
-            --orange: #FF6B35;
-            --orange-deep: #E85A2A;
-            --sky: #2D9CDB;
-            --sky-deep: #2387BE;
-            --green: #27AE60;
-            --line: #E7E2D6;
-            --radius-lg: 20px;
-            --radius-md: 14px;
-            --radius-sm: 10px;
-            --shadow: 0 8px 24px rgba(26, 46, 53, 0.08);
-            --shadow-lift: 0 16px 40px rgba(26, 46, 53, 0.14);
-            --maxw: 1180px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--ink);
-            background: var(--paper);
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        h1, h2, h3, .display {
-            font-family: 'Manrope', sans-serif;
-            font-weight: 800;
-            letter-spacing: -0.01em;
-            line-height: 1.1;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-        }
-
-        button {
-            font-family: inherit;
-            cursor: pointer;
-        }
-
-        .wrap {
-            max-width: var(--maxw);
-            margin: 0 auto;
-            padding: 0 28px;
-        }
-
-        :focus-visible {
-            outline: 3px solid var(--sky);
-            outline-offset: 2px;
-        }
-
-        /* ===== Road-line signature motif ===== */
-        .road-divider {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            height: 2px;
-        }
-
-        .road-divider .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--orange);
-            flex-shrink: 0;
-        }
-
-        .road-divider .dash-line {
-            flex: 1;
-            height: 2px;
-            background-image: repeating-linear-gradient(to right, var(--line) 0 10px, transparent 10px 18px);
-        }
-
-        /* ===== Header ===== */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--line);
-        }
-
-        .nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 28px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            font-family: 'Manrope';
-            font-weight: 800;
-            font-size: 1.3rem;
-        }
-
-        .logo .mark {
-            width: 34px;
-            height: 34px;
-            border-radius: 9px;
-            background: linear-gradient(135deg, var(--orange), var(--orange-deep));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1rem;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-        }
-
-        .nav-links a {
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: var(--ink-soft);
-            transition: color .15s;
-        }
-
-        .nav-links a:hover {
-            color: var(--ink);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .lang-switch {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: var(--cream);
-            border-radius: 999px;
-            padding: 4px;
-            border: 1px solid var(--line);
-        }
-
-        .lang-switch button {
-            border: none;
-            background: transparent;
-            padding: 6px 11px;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--ink-soft);
-        }
-
-        .lang-switch button.active {
-            background: var(--ink);
-            color: white;
-        }
-
-        .btn {
-            border: none;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            padding: 12px 24px;
-            transition: transform .12s, box-shadow .12s, background .15s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-        }
-
-        .btn:active {
-            transform: scale(0.97);
-        }
-
-        .btn-primary {
-            background: var(--orange);
-            color: white;
-            box-shadow: 0 6px 16px rgba(255, 107, 53, 0.35);
-        }
-
-        .btn-primary:hover {
-            background: var(--orange-deep);
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--ink);
-            border: 1.5px solid var(--line);
-        }
-
-        .btn-ghost:hover {
-            border-color: var(--ink);
-        }
-
-        .btn-sky {
-            background: var(--sky);
-            color: white;
-            box-shadow: 0 6px 16px rgba(45, 156, 219, 0.3);
-        }
-
-        .btn-sky:hover {
-            background: var(--sky-deep);
-        }
-
-        @media (max-width: 860px) {
-            .nav-links {
-                display: none;
-            }
-        }
-
-        /* ===== Hero ===== */
-        .hero {
-            position: relative;
-            overflow: hidden;
-            padding: 64px 0 0;
-            background: linear-gradient(180deg, var(--cream) 0%, var(--paper) 78%);
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns:1.05fr 0.95fr;
-            gap: 48px;
-            align-items: center;
-            padding-bottom: 40px;
-        }
-
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 7px 14px 7px 8px;
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--ink-soft);
-            box-shadow: var(--shadow);
-            margin-bottom: 22px;
-        }
-
-        .eyebrow .pulse {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: var(--green);
-            box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.5);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.45);
-            }
-            70% {
-                box-shadow: 0 0 0 8px rgba(39, 174, 96, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
-            }
-        }
-
-        .hero h1 {
-            font-size: 3.1rem;
-            margin-bottom: 18px;
-        }
-
-        .hero h1 span {
-            color: var(--orange);
-        }
-
-        .hero p.lead {
-            font-size: 1.12rem;
-            color: var(--ink-soft);
-            max-width: 480px;
-            margin-bottom: 30px;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 32px;
-            margin-top: 36px;
-        }
-
-        .stat .num {
-            font-family: 'Manrope';
-            font-weight: 800;
-            font-size: 1.7rem;
-            color: var(--ink);
-        }
-
-        .stat .lbl {
-            font-size: 0.85rem;
-            color: var(--ink-soft);
-            font-weight: 500;
-        }
-
-        .hero-art {
-            position: relative;
-            aspect-ratio: 1/0.92;
-            border-radius: 28px;
-            background: linear-gradient(160deg, #FFE3D1 0%, #FFF6EE 55%, #EAF6FF 100%);
-            overflow: hidden;
-            box-shadow: var(--shadow-lift);
-        }
-
-        .hero-art svg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .route-card {
-            position: absolute;
-            bottom: 22px;
-            left: 22px;
-            right: 22px;
-            background: white;
-            border-radius: var(--radius-md);
-            padding: 16px 18px;
-            box-shadow: var(--shadow-lift);
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .route-card .avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--sky);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 800;
-            flex-shrink: 0;
-        }
-
-        .route-card .info {
-            flex: 1;
-        }
-
-        .route-card .name {
-            font-weight: 700;
-            font-size: 0.92rem;
-        }
-
-        .route-card .sub {
-            font-size: 0.8rem;
-            color: var(--ink-soft);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-top: 2px;
-        }
-
-        .route-card .star {
-            color: #F2B705;
-        }
-
-        .route-card .price {
-            font-family: 'Manrope';
-            font-weight: 800;
-            color: var(--orange);
-            font-size: 1.05rem;
-        }
-
-        /* ===== Search panel ===== */
-        .search-panel {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lift);
-            padding: 26px;
-            margin-top: -10px;
-            position: relative;
-            z-index: 5;
-            border: 1px solid var(--line);
-        }
-
-        .search-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 18px;
-        }
-
-        .search-tab {
-            border: none;
-            background: var(--cream);
-            border-radius: 999px;
-            padding: 9px 18px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: var(--ink-soft);
-        }
-
-        .search-tab.active {
-            background: var(--ink);
-            color: white;
-        }
-
-        .search-row {
-            display: grid;
-            grid-template-columns:1fr 1fr 1fr auto;
-            gap: 14px;
-            align-items: end;
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .field label {
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--ink-soft);
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-
-        .field input, .field select {
-            border: 1.5px solid var(--line);
-            border-radius: var(--radius-sm);
-            padding: 13px 14px;
-            font-size: 0.95rem;
-            font-family: inherit;
-            color: var(--ink);
-            background: var(--cream);
-            transition: border-color .15s;
-        }
-
-        .field input:focus, .field select:focus {
-            border-color: var(--sky);
-            background: white;
-        }
-
-        .field.from-to {
-            position: relative;
-        }
-
-        .swap-btn {
-            position: absolute;
-            right: -7px;
-            top: 38px;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: white;
-            border: 1.5px solid var(--line);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-            font-size: 0.85rem;
-            color: var(--sky);
-        }
-
-        .search-btn {
-            background: var(--orange);
-            color: white;
-            border: none;
-            border-radius: var(--radius-sm);
-            padding: 13px 26px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            box-shadow: 0 6px 16px rgba(255, 107, 53, 0.35);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        @media (max-width: 760px) {
-            .hero-grid {
-                grid-template-columns:1fr;
-            }
-
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .search-row {
-                grid-template-columns:1fr;
-            }
-
-            .hero-art {
-                order: -1;
-                aspect-ratio: 1.2/1;
-            }
-        }
-
-        /* ===== How it works ===== */
-        section {
-            padding: 84px 0;
-        }
-
-        .section-head {
-            max-width: 560px;
-            margin-bottom: 48px;
-        }
-
-        .section-tag {
-            color: var(--orange);
-            font-weight: 800;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .section-head h2 {
-            font-size: 2.1rem;
-        }
-
-        .section-head p {
-            color: var(--ink-soft);
-            margin-top: 12px;
-            font-size: 1.02rem;
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns:repeat(3, 1fr);
-            gap: 0;
-        }
-
-        .step {
-            position: relative;
-            padding: 0 24px 0 0;
-        }
-
-        .step:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            top: 26px;
-            left: calc(100% - 12px);
-            width: calc(24px + 24px);
-            height: 2px;
-            background-image: repeating-linear-gradient(to right, var(--line) 0 8px, transparent 8px 14px);
-        }
-
-        .step-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-        }
-
-        .step:nth-child(1) .step-icon {
-            background: #FFE9DD;
-            color: var(--orange);
-        }
-
-        .step:nth-child(2) .step-icon {
-            background: #E2F1FB;
-            color: var(--sky);
-        }
-
-        .step:nth-child(3) .step-icon {
-            background: #E3F6EA;
-            color: var(--green);
-        }
-
-        .step h3 {
-            font-size: 1.15rem;
-            margin-bottom: 8px;
-        }
-
-        .step p {
-            color: var(--ink-soft);
-            font-size: 0.92rem;
-        }
-
-        @media (max-width: 760px) {
-            .steps {
-                grid-template-columns:1fr;
-                gap: 32px;
-            }
-
-            .step::after {
-                display: none;
-            }
-        }
-
-        /* ===== Popular routes ===== */
-        .routes-section {
-            background: var(--cream);
-        }
-
-        .route-grid {
-            display: grid;
-            grid-template-columns:repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        .route-pill {
-            background: white;
-            border-radius: var(--radius-md);
-            padding: 20px;
-            border: 1px solid var(--line);
-            transition: transform .15s, box-shadow .15s;
-        }
-
-        .route-pill:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-
-        .route-pill .cities {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            font-size: 0.98rem;
-            margin-bottom: 10px;
-        }
-
-        .route-pill .cities .road-divider {
-            width: 28px;
-        }
-
-        .route-pill .price-from {
-            font-size: 0.85rem;
-            color: var(--ink-soft);
-        }
-
-        .route-pill .price-from b {
-            color: var(--orange);
-            font-family: 'Manrope';
-            font-size: 1rem;
-        }
-
-        @media (max-width: 900px) {
-            .route-grid {
-                grid-template-columns:repeat(2, 1fr);
-            }
-        }
-
-        /* ===== Driver CTA ===== */
-        .driver-cta {
-            border-radius: 28px;
-            background: linear-gradient(120deg, #1A2E35 0%, #28424C 100%);
-            padding: 56px;
-            display: grid;
-            grid-template-columns:1.3fr 1fr;
-            gap: 40px;
-            align-items: center;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .driver-cta::before {
-            content: '';
-            position: absolute;
-            right: -60px;
-            top: -60px;
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 107, 53, 0.25), transparent 70%);
-        }
-
-        .driver-cta h2 {
-            font-size: 1.9rem;
-            margin-bottom: 14px;
-            color: white;
-        }
-
-        .driver-cta p {
-            color: #C7D2D6;
-            max-width: 420px;
-            margin-bottom: 0;
-        }
-
-        .driver-cta-stats {
-            display: flex;
-            gap: 28px;
-            margin-top: 24px;
-        }
-
-        .driver-cta-stats .num {
-            font-family: 'Manrope';
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--orange);
-        }
-
-        .driver-cta-stats .lbl {
-            font-size: 0.8rem;
-            color: #9FB0B5;
-        }
-
-        .driver-cta-right {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: flex-start;
-        }
-
-        @media (max-width: 860px) {
-            .driver-cta {
-                grid-template-columns:1fr;
-                padding: 36px;
-            }
-        }
-
-        /* ===== Testimonials ===== */
-        .testi-grid {
-            display: grid;
-            grid-template-columns:repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .testi-card {
-            background: white;
-            border: 1px solid var(--line);
-            border-radius: var(--radius-md);
-            padding: 24px;
-        }
-
-        .testi-stars {
-            color: #F2B705;
-            margin-bottom: 14px;
-            font-size: 0.95rem;
-        }
-
-        .testi-card p {
-            font-size: 0.95rem;
-            color: var(--ink-soft);
-            margin-bottom: 18px;
-        }
-
-        .testi-who {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .testi-who .av {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--sky);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-
-        .testi-who .nm {
-            font-weight: 700;
-            font-size: 0.88rem;
-        }
-
-        .testi-who .rt {
-            font-size: 0.78rem;
-            color: var(--ink-soft);
-        }
-
-        @media (max-width: 860px) {
-            .testi-grid {
-                grid-template-columns:1fr;
-            }
-        }
-
-        /* ===== Footer ===== */
-        footer {
-            background: var(--ink);
-            color: #C7D2D6;
-            padding: 56px 0 28px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns:1.4fr 1fr 1fr 1fr;
-            gap: 36px;
-            margin-bottom: 40px;
-        }
-
-        .footer-grid h4 {
-            color: white;
-            font-size: 0.95rem;
-            margin-bottom: 16px;
-        }
-
-        .footer-grid a {
-            display: block;
-            font-size: 0.88rem;
-            color: #9FB0B5;
-            margin-bottom: 10px;
-        }
-
-        .footer-grid a:hover {
-            color: white;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            margin-bottom: 14px;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.82rem;
-            color: #7E9097;
-        }
-
-        @media (max-width: 760px) {
-            .footer-grid {
-                grid-template-columns:1fr 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yo'lda — Viloyatlararo yo'lovchi tashish xizmati</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A2E35;
+    --ink-soft:#4A5C63;
+    --paper:#FFFFFF;
+    --cream:#F7F4ED;
+    --orange:#FF6B35;
+    --orange-deep:#E85A2A;
+    --sky:#2D9CDB;
+    --sky-deep:#2387BE;
+    --green:#27AE60;
+    --line:#E7E2D6;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:10px;
+    --shadow:0 8px 24px rgba(26,46,53,0.08);
+    --shadow-lift:0 16px 40px rgba(26,46,53,0.14);
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Manrope', sans-serif;
+    font-weight:800;
+    letter-spacing:-0.01em;
+    line-height:1.1;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  button{font-family:inherit; cursor:pointer;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+  :focus-visible{outline:3px solid var(--sky); outline-offset:2px;}
+
+  /* ===== Road-line signature motif ===== */
+  .road-divider{
+    display:flex; align-items:center; gap:8px; height:2px;
+  }
+  .road-divider .dot{
+    width:6px; height:6px; border-radius:50%; background:var(--orange); flex-shrink:0;
+  }
+  .road-divider .dash-line{
+    flex:1; height:2px;
+    background-image:repeating-linear-gradient(to right, var(--line) 0 10px, transparent 10px 18px);
+  }
+
+  /* ===== Header ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:9px;
+    font-family:'Manrope'; font-weight:800; font-size:1.3rem;
+  }
+  .logo .mark{
+    width:34px; height:34px; border-radius:9px;
+    background:linear-gradient(135deg, var(--orange), var(--orange-deep));
+    display:flex; align-items:center; justify-content:center;
+    color:white; font-size:1rem;
+  }
+  .nav-links{display:flex; align-items:center; gap:28px;}
+  .nav-links a{font-weight:600; font-size:0.95rem; color:var(--ink-soft); transition:color .15s;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-actions{display:flex; align-items:center; gap:12px;}
+  .lang-switch{
+    display:flex; align-items:center; gap:4px;
+    background:var(--cream); border-radius:999px; padding:4px;
+    border:1px solid var(--line);
+  }
+  .lang-switch button{
+    border:none; background:transparent; padding:6px 11px; border-radius:999px;
+    font-size:0.8rem; font-weight:700; color:var(--ink-soft);
+  }
+  .lang-switch button.active{background:var(--ink); color:white;}
+  .btn{
+    border:none; border-radius:999px; font-weight:700; font-size:0.95rem;
+    padding:12px 24px; transition:transform .12s, box-shadow .12s, background .15s;
+    display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--orange); color:white; box-shadow:0 6px 16px rgba(255,107,53,0.35);}
+  .btn-primary:hover{background:var(--orange-deep);}
+  .btn-ghost{background:transparent; color:var(--ink); border:1.5px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-sky{background:var(--sky); color:white; box-shadow:0 6px 16px rgba(45,156,219,0.3);}
+  .btn-sky:hover{background:var(--sky-deep);}
+  @media(max-width:860px){ .nav-links{display:none;} }
+
+  /* ===== Hero ===== */
+  .hero{
+    position:relative; overflow:hidden;
+    padding:64px 0 0;
+    background:linear-gradient(180deg, var(--cream) 0%, var(--paper) 78%);
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;
+    padding-bottom:40px;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    background:white; border:1px solid var(--line); border-radius:999px;
+    padding:7px 14px 7px 8px; font-size:0.82rem; font-weight:700; color:var(--ink-soft);
+    box-shadow:var(--shadow); margin-bottom:22px;
+  }
+  .eyebrow .pulse{
+    width:9px; height:9px; border-radius:50%; background:var(--green);
+    box-shadow:0 0 0 0 rgba(39,174,96,0.5);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(39,174,96,0.45);}
+    70%{box-shadow:0 0 0 8px rgba(39,174,96,0);}
+    100%{box-shadow:0 0 0 0 rgba(39,174,96,0);}
+  }
+  .hero h1{font-size:3.1rem; margin-bottom:18px;}
+  .hero h1 span{color:var(--orange);}
+  .hero p.lead{font-size:1.12rem; color:var(--ink-soft); max-width:480px; margin-bottom:30px;}
+  .hero-stats{display:flex; gap:32px; margin-top:36px;}
+  .stat .num{font-family:'Manrope'; font-weight:800; font-size:1.7rem; color:var(--ink);}
+  .stat .lbl{font-size:0.85rem; color:var(--ink-soft); font-weight:500;}
+
+  .hero-art{
+    position:relative; aspect-ratio:1/0.92; border-radius:28px;
+    background:linear-gradient(160deg, #FFE3D1 0%, #FFF6EE 55%, #EAF6FF 100%);
+    overflow:hidden; box-shadow:var(--shadow-lift);
+  }
+  .hero-art svg{position:absolute; inset:0; width:100%; height:100%;}
+  .route-card{
+    position:absolute; bottom:22px; left:22px; right:22px;
+    background:white; border-radius:var(--radius-md); padding:16px 18px;
+    box-shadow:var(--shadow-lift); display:flex; align-items:center; gap:14px;
+  }
+  .route-card .avatar{
+    width:44px; height:44px; border-radius:50%; background:var(--sky);
+    display:flex; align-items:center; justify-content:center; color:white; font-weight:800; flex-shrink:0;
+  }
+  .route-card .info{flex:1;}
+  .route-card .name{font-weight:700; font-size:0.92rem;}
+  .route-card .sub{font-size:0.8rem; color:var(--ink-soft); display:flex; align-items:center; gap:4px; margin-top:2px;}
+  .route-card .star{color:#F2B705;}
+  .route-card .price{font-family:'Manrope'; font-weight:800; color:var(--orange); font-size:1.05rem;}
+
+  /* ===== Search panel ===== */
+  .search-panel{
+    background:white; border-radius:var(--radius-lg); box-shadow:var(--shadow-lift);
+    padding:26px; margin-top:-10px; position:relative; z-index:5;
+    border:1px solid var(--line);
+  }
+  .search-tabs{display:flex; gap:8px; margin-bottom:18px;}
+  .search-tab{
+    border:none; background:var(--cream); border-radius:999px; padding:9px 18px;
+    font-weight:700; font-size:0.85rem; color:var(--ink-soft);
+  }
+  .search-tab.active{background:var(--ink); color:white;}
+  .search-row{
+    display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:14px; align-items:end;
+  }
+  .field{display:flex; flex-direction:column; gap:7px;}
+  .field label{font-size:0.78rem; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.03em;}
+  .field input, .field select{
+    border:1.5px solid var(--line); border-radius:var(--radius-sm); padding:13px 14px;
+    font-size:0.95rem; font-family:inherit; color:var(--ink); background:var(--cream);
+    transition:border-color .15s;
+  }
+  .field input:focus, .field select:focus{border-color:var(--sky); background:white;}
+  .field.from-to{position:relative;}
+  .swap-btn{
+    position:absolute; right:-7px; top:38px; width:30px; height:30px; border-radius:50%;
+    background:white; border:1.5px solid var(--line); display:flex; align-items:center; justify-content:center;
+    z-index:2; font-size:0.85rem; color:var(--sky);
+  }
+  .search-btn{
+    background:var(--orange); color:white; border:none; border-radius:var(--radius-sm);
+    padding:13px 26px; font-weight:700; font-size:0.95rem; box-shadow:0 6px 16px rgba(255,107,53,0.35);
+    display:flex; align-items:center; gap:8px;
+  }
+  @media(max-width:760px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero h1{font-size:2.2rem;}
+    .search-row{grid-template-columns:1fr;}
+    .hero-art{order:-1; aspect-ratio:1.2/1;}
+  }
+
+  /* ===== How it works ===== */
+  section{padding:84px 0;}
+  .section-head{max-width:560px; margin-bottom:48px;}
+  .section-tag{
+    color:var(--orange); font-weight:800; font-size:0.85rem; text-transform:uppercase;
+    letter-spacing:0.06em; margin-bottom:10px; display:block;
+  }
+  .section-head h2{font-size:2.1rem;}
+  .section-head p{color:var(--ink-soft); margin-top:12px; font-size:1.02rem;}
+
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:0;}
+  .step{position:relative; padding:0 24px 0 0;}
+  .step:not(:last-child)::after{
+    content:''; position:absolute; top:26px; left:calc(100% - 12px); width:calc(24px + 24px);
+    height:2px; background-image:repeating-linear-gradient(to right, var(--line) 0 8px, transparent 8px 14px);
+  }
+  .step-icon{
+    width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    font-size:1.4rem; margin-bottom:20px;
+  }
+  .step:nth-child(1) .step-icon{background:#FFE9DD; color:var(--orange);}
+  .step:nth-child(2) .step-icon{background:#E2F1FB; color:var(--sky);}
+  .step:nth-child(3) .step-icon{background:#E3F6EA; color:var(--green);}
+  .step h3{font-size:1.15rem; margin-bottom:8px;}
+  .step p{color:var(--ink-soft); font-size:0.92rem;}
+  @media(max-width:760px){ .steps{grid-template-columns:1fr; gap:32px;} .step::after{display:none;} }
+
+  /* ===== Popular routes ===== */
+  .routes-section{background:var(--cream);}
+  .route-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  .route-pill{
+    background:white; border-radius:var(--radius-md); padding:20px; border:1px solid var(--line);
+    transition:transform .15s, box-shadow .15s;
+  }
+  .route-pill:hover{transform:translateY(-3px); box-shadow:var(--shadow);}
+  .route-pill .cities{display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.98rem; margin-bottom:10px;}
+  .route-pill .cities .road-divider{width:28px;}
+  .route-pill .price-from{font-size:0.85rem; color:var(--ink-soft);}
+  .route-pill .price-from b{color:var(--orange); font-family:'Manrope'; font-size:1rem;}
+  @media(max-width:900px){ .route-grid{grid-template-columns:repeat(2,1fr);} }
+
+  /* ===== Driver CTA ===== */
+  .driver-cta{
+    border-radius:28px; background:linear-gradient(120deg, #1A2E35 0%, #28424C 100%);
+    padding:56px; display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:center;
+    color:white; position:relative; overflow:hidden;
+  }
+  .driver-cta::before{
+    content:''; position:absolute; right:-60px; top:-60px; width:280px; height:280px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,107,53,0.25), transparent 70%);
+  }
+  .driver-cta h2{font-size:1.9rem; margin-bottom:14px; color:white;}
+  .driver-cta p{color:#C7D2D6; max-width:420px; margin-bottom:0;}
+  .driver-cta-stats{display:flex; gap:28px; margin-top:24px;}
+  .driver-cta-stats .num{font-family:'Manrope'; font-weight:800; font-size:1.5rem; color:var(--orange);}
+  .driver-cta-stats .lbl{font-size:0.8rem; color:#9FB0B5;}
+  .driver-cta-right{display:flex; flex-direction:column; gap:12px; align-items:flex-start;}
+  @media(max-width:860px){ .driver-cta{grid-template-columns:1fr; padding:36px;} }
+
+  /* ===== Testimonials ===== */
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .testi-card{
+    background:white; border:1px solid var(--line); border-radius:var(--radius-md); padding:24px;
+  }
+  .testi-stars{color:#F2B705; margin-bottom:14px; font-size:0.95rem;}
+  .testi-card p{font-size:0.95rem; color:var(--ink-soft); margin-bottom:18px;}
+  .testi-who{display:flex; align-items:center; gap:10px;}
+  .testi-who .av{width:38px; height:38px; border-radius:50%; background:var(--sky); color:white;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.85rem;}
+  .testi-who .nm{font-weight:700; font-size:0.88rem;}
+  .testi-who .rt{font-size:0.78rem; color:var(--ink-soft);}
+  @media(max-width:860px){ .testi-grid{grid-template-columns:1fr;} }
+
+  /* ===== Footer ===== */
+  footer{background:var(--ink); color:#C7D2D6; padding:56px 0 28px;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:36px; margin-bottom:40px;}
+  .footer-grid h4{color:white; font-size:0.95rem; margin-bottom:16px;}
+  .footer-grid a{display:block; font-size:0.88rem; color:#9FB0B5; margin-bottom:10px;}
+  .footer-grid a:hover{color:white;}
+  .footer-logo{display:flex; align-items:center; gap:9px; margin-bottom:14px;}
+  .footer-bottom{
+    border-top:1px solid rgba(255,255,255,0.1); padding-top:24px;
+    display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; color:#7E9097;
+  }
+  @media(max-width:760px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+</style>
 </head>
 <body>
 
 <header>
-    <div class="nav">
-        <div class="logo"><span class="mark">Y</span> Yo'lda</div>
-        <nav class="nav-links">
-            <a href="02_qidiruv_natijalari.html">Yo'nalishlarni qidirish</a>
-            <a href="05_elon_joylash.html">Haydovchi bo'lish</a>
-            <a href="#qanday-ishlaydi">Qanday ishlaydi</a>
-        </nav>
-        <div class="nav-actions">
-            <div class="lang-switch">
-                <button class="active">UZ</button>
-                <button>РУ</button>
-            </div>
-            <a href="03_royxatdan_otish.html" class="btn btn-ghost">Kirish</a>
-            <a href="03_royxatdan_otish.html" class="btn btn-primary">Ro'yxatdan o'tish</a>
-        </div>
+  <div class="nav">
+    <div class="logo"><span class="mark">Y</span> Yo'lda</div>
+    <nav class="nav-links">
+      <a href="02_qidiruv_natijalari.html">Yo'nalishlarni qidirish</a>
+      <a href="05_elon_joylash.html">Haydovchi bo'lish</a>
+      <a href="#qanday-ishlaydi">Qanday ishlaydi</a>
+    </nav>
+    <div class="nav-actions">
+      <div class="lang-switch">
+        <button class="active">UZ</button>
+        <button>РУ</button>
+      </div>
+      <a href="03_royxatdan_otish.html" class="btn btn-ghost">Kirish</a>
+      <a href="03_royxatdan_otish.html" class="btn btn-primary">Ro'yxatdan o'tish</a>
     </div>
+  </div>
 </header>
 
 <section class="hero">
-    <div class="wrap">
-        <div class="hero-grid">
-            <div>
-                <div class="eyebrow"><span class="pulse"></span> 1 240+ haydovchi hozir yo'lda</div>
-                <h1>Viloyatlar orasida <span>ishonchli</span> hamroh toping</h1>
-                <p class="lead">Avtovokzalda navbat kutmang. Haydovchini, mashinasini va narxini oldindan ko'ring —
-                    yo'lga xotirjam chiqing.</p>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <div class="num">14</div>
-                        <div class="lbl">viloyat qamrovda</div>
-                    </div>
-                    <div class="stat">
-                        <div class="num">4.8</div>
-                        <div class="lbl">o'rtacha reyting</div>
-                    </div>
-                    <div class="stat">
-                        <div class="num">98%</div>
-                        <div class="lbl">vaqtida yetib borish</div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-art">
-                <svg viewBox="0 0 400 380" preserveAspectRatio="none">
-                    <path d="M40,40 Q150,90 120,180 T260,260 Q330,290 360,340" stroke="#FF6B35" stroke-width="3"
-                          stroke-dasharray="2 12" fill="none" stroke-linecap="round"/>
-                    <circle cx="40" cy="40" r="7" fill="#1A2E35"/>
-                    <circle cx="360" cy="340" r="7" fill="#2D9CDB"/>
-                </svg>
-                <div class="route-card">
-                    <div class="avatar">JN</div>
-                    <div class="info">
-                        <div class="name">Jasur N.</div>
-                        <div class="sub"><span class="star">★</span> 4.9 · Chevrolet Cobalt</div>
-                    </div>
-                    <div class="price">85 000<br><span style="font-size:0.65rem;color:var(--ink-soft);font-weight:500;">so'm/o'rin</span>
-                    </div>
-                </div>
-            </div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow"><span class="pulse"></span> 1 240+ haydovchi hozir yo'lda</div>
+        <h1>Viloyatlar orasida <span>ishonchli</span> hamroh toping</h1>
+        <p class="lead">Avtovokzalda navbat kutmang. Haydovchini, mashinasini va narxini oldindan ko'ring — yo'lga xotirjam chiqing.</p>
+        <div class="hero-stats">
+          <div class="stat"><div class="num">14</div><div class="lbl">viloyat qamrovda</div></div>
+          <div class="stat"><div class="num">4.8</div><div class="lbl">o'rtacha reyting</div></div>
+          <div class="stat"><div class="num">98%</div><div class="lbl">vaqtida yetib borish</div></div>
         </div>
-
-        <div class="search-panel">
-            <div class="search-tabs">
-                <button class="search-tab active">Yo'lovchiman</button>
-                <button class="search-tab">Yuk jo'natmoqchiman</button>
-            </div>
-            <div class="search-row">
-                <div class="field from-to">
-                    <label>Qayerdan</label>
-                    <select>
-                        <option>Toshkent</option>
-                        <option>Samarqand</option>
-                        <option>Buxoro</option>
-                        <option>Farg'ona</option>
-                    </select>
-                    <div class="swap-btn">⇄</div>
-                </div>
-                <div class="field">
-                    <label>Qayerga</label>
-                    <select>
-                        <option>Samarqand</option>
-                        <option>Toshkent</option>
-                        <option>Buxoro</option>
-                        <option>Andijon</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Sana</label>
-                    <input type="date">
-                </div>
-                <button class="search-btn">🔍 Qidirish</button>
-            </div>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 400 380" preserveAspectRatio="none">
+          <path d="M40,40 Q150,90 120,180 T260,260 Q330,290 360,340" stroke="#FF6B35" stroke-width="3" stroke-dasharray="2 12" fill="none" stroke-linecap="round"/>
+          <circle cx="40" cy="40" r="7" fill="#1A2E35"/>
+          <circle cx="360" cy="340" r="7" fill="#2D9CDB"/>
+        </svg>
+        <div class="route-card">
+          <div class="avatar">JN</div>
+          <div class="info">
+            <div class="name">Jasur N.</div>
+            <div class="sub"><span class="star">★</span> 4.9 · Chevrolet Cobalt</div>
+          </div>
+          <div class="price">85 000<br><span style="font-size:0.65rem;color:var(--ink-soft);font-weight:500;">so'm/o'rin</span></div>
         </div>
+      </div>
     </div>
+
+    <div class="search-panel">
+      <div class="search-tabs">
+        <button class="search-tab active">Yo'lovchiman</button>
+        <button class="search-tab">Yuk jo'natmoqchiman</button>
+      </div>
+      <div class="search-row">
+        <div class="field from-to">
+          <label>Qayerdan</label>
+          <select>
+            <option>Toshkent</option>
+            <option>Samarqand</option>
+            <option>Buxoro</option>
+            <option>Farg'ona</option>
+          </select>
+          <div class="swap-btn">⇄</div>
+        </div>
+        <div class="field">
+          <label>Qayerga</label>
+          <select>
+            <option>Samarqand</option>
+            <option>Toshkent</option>
+            <option>Buxoro</option>
+            <option>Andijon</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Sana</label>
+          <input type="date">
+        </div>
+        <button class="search-btn">🔍 Qidirish</button>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="qanday-ishlaydi">
-    <div class="wrap">
-        <div class="section-head">
-            <span class="section-tag">Jarayon</span>
-            <h2>Uch qadamda yo'lga chiqasiz</h2>
-            <p>Hech qanday yashirin to'lov, hech qanday noaniqlik — hammasi oldindan ko'rinadi.</p>
-        </div>
-        <div class="steps">
-            <div class="step">
-                <div class="step-icon">📍</div>
-                <h3>Yo'nalishni qidiring</h3>
-                <p>Qayerdan va qayerga ketishingizni, sanani tanlang — mos haydovchilar ro'yxati chiqadi.</p>
-            </div>
-            <div class="step">
-                <div class="step-icon">👤</div>
-                <h3>Haydovchini tanlang</h3>
-                <p>Reyting, mashina va narxni solishtirib, o'zingizga mosini tanlang va o'rindiq band qiling.</p>
-            </div>
-            <div class="step">
-                <div class="step-icon">✅</div>
-                <h3>Tasdiqlanadi va yo'lga chiqasiz</h3>
-                <p>Haydovchi tasdiqlagach, telefon raqami ochiladi — to'g'ridan-to'g'ri bog'lanasiz.</p>
-            </div>
-        </div>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Jarayon</span>
+      <h2>Uch qadamda yo'lga chiqasiz</h2>
+      <p>Hech qanday yashirin to'lov, hech qanday noaniqlik — hammasi oldindan ko'rinadi.</p>
     </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon">📍</div>
+        <h3>Yo'nalishni qidiring</h3>
+        <p>Qayerdan va qayerga ketishingizni, sanani tanlang — mos haydovchilar ro'yxati chiqadi.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">👤</div>
+        <h3>Haydovchini tanlang</h3>
+        <p>Reyting, mashina va narxni solishtirib, o'zingizga mosini tanlang va o'rindiq band qiling.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">✅</div>
+        <h3>Tasdiqlanadi va yo'lga chiqasiz</h3>
+        <p>Haydovchi tasdiqlagach, telefon raqami ochiladi — to'g'ridan-to'g'ri bog'lanasiz.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="routes-section">
-    <div class="wrap">
-        <div class="section-head">
-            <span class="section-tag">Mashhur yo'nalishlar</span>
-            <h2>Eng ko'p qidirilgan marshrutlar</h2>
-        </div>
-        <div class="route-grid">
-            <div class="route-pill">
-                <div class="cities">Toshkent <span class="road-divider"><span class="dash-line"></span></span> Samarqand
-                </div>
-                <div class="price-from">dan <b>70 000 so'm</b></div>
-            </div>
-            <div class="route-pill">
-                <div class="cities">Toshkent <span class="road-divider"><span class="dash-line"></span></span> Farg'ona
-                </div>
-                <div class="price-from">dan <b>65 000 so'm</b></div>
-            </div>
-            <div class="route-pill">
-                <div class="cities">Buxoro <span class="road-divider"><span class="dash-line"></span></span> Toshkent
-                </div>
-                <div class="price-from">dan <b>90 000 so'm</b></div>
-            </div>
-            <div class="route-pill">
-                <div class="cities">Toshkent <span class="road-divider"><span class="dash-line"></span></span> Namangan
-                </div>
-                <div class="price-from">dan <b>60 000 so'm</b></div>
-            </div>
-        </div>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Mashhur yo'nalishlar</span>
+      <h2>Eng ko'p qidirilgan marshrutlar</h2>
     </div>
+    <div class="route-grid">
+      <div class="route-pill">
+        <div class="cities">Toshkent <span class="road-divider"><span class="dash-line"></span></span> Samarqand</div>
+        <div class="price-from">dan <b>70 000 so'm</b></div>
+      </div>
+      <div class="route-pill">
+        <div class="cities">Toshkent <span class="road-divider"><span class="dash-line"></span></span> Farg'ona</div>
+        <div class="price-from">dan <b>65 000 so'm</b></div>
+      </div>
+      <div class="route-pill">
+        <div class="cities">Buxoro <span class="road-divider"><span class="dash-line"></span></span> Toshkent</div>
+        <div class="price-from">dan <b>90 000 so'm</b></div>
+      </div>
+      <div class="route-pill">
+        <div class="cities">Toshkent <span class="road-divider"><span class="dash-line"></span></span> Namangan</div>
+        <div class="price-from">dan <b>60 000 so'm</b></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section>
-    <div class="wrap">
-        <div class="driver-cta">
-            <div>
-                <h2>Mashinangiz bo'sh joy bilan yuribdimi?</h2>
-                <p>Doimiy yoki vaqti-vaqti bilan yo'lovchi tashiysizmi? E'lon joylang, yo'lovchilarni o'zingiz
-                    tanlang.</p>
-                <div class="driver-cta-stats">
-                    <div>
-                        <div class="num">5-10%</div>
-                        <div class="lbl">komissiya</div>
-                    </div>
-                    <div>
-                        <div class="num">0 so'm</div>
-                        <div class="lbl">e'lon joylash uchun</div>
-                    </div>
-                </div>
-            </div>
-            <div class="driver-cta-right">
-                <a href="05_elon_joylash.html" class="btn btn-primary">Haydovchi bo'lish</a>
-                <a href="#" class="btn btn-ghost" style="border-color:rgba(255,255,255,0.3); color:white;">Shartlar
-                    bilan tanishish</a>
-            </div>
+  <div class="wrap">
+    <div class="driver-cta">
+      <div>
+        <h2>Mashinangiz bo'sh joy bilan yuribdimi?</h2>
+        <p>Doimiy yoki vaqti-vaqti bilan yo'lovchi tashiysizmi? E'lon joylang, yo'lovchilarni o'zingiz tanlang.</p>
+        <div class="driver-cta-stats">
+          <div><div class="num">5-10%</div><div class="lbl">komissiya</div></div>
+          <div><div class="num">0 so'm</div><div class="lbl">e'lon joylash uchun</div></div>
         </div>
+      </div>
+      <div class="driver-cta-right">
+        <a href="05_elon_joylash.html" class="btn btn-primary">Haydovchi bo'lish</a>
+        <a href="#" class="btn btn-ghost" style="border-color:rgba(255,255,255,0.3); color:white;">Shartlar bilan tanishish</a>
+      </div>
     </div>
+  </div>
 </section>
 
 <section>
-    <div class="wrap">
-        <div class="section-head">
-            <span class="section-tag">Fikrlar</span>
-            <h2>Yo'lovchilar nima deydi</h2>
-        </div>
-        <div class="testi-grid">
-            <div class="testi-card">
-                <div class="testi-stars">★★★★★</div>
-                <p>Avtovokzalda soatlab kutish o'rniga, telefonimdan haydovchini tanladim. Mashina haqiqatan ham
-                    e'londagidek edi.</p>
-                <div class="testi-who">
-                    <div class="av">DM</div>
-                    <div>
-                        <div class="nm">Dilnoza M.</div>
-                        <div class="rt">Toshkent → Samarqand</div>
-                    </div>
-                </div>
-            </div>
-            <div class="testi-card">
-                <div class="testi-stars">★★★★★</div>
-                <p>Narx oldindan aniq ko'rsatilgani uchun yo'lda bahslashish bo'lmadi. Juda qulay.</p>
-                <div class="testi-who">
-                    <div class="av">BT</div>
-                    <div>
-                        <div class="nm">Bekzod T.</div>
-                        <div class="rt">Farg'ona → Toshkent</div>
-                    </div>
-                </div>
-            </div>
-            <div class="testi-card">
-                <div class="testi-stars">★★★★★</div>
-                <p>Haydovchi sifatida bo'sh joylarni tezda to'ldiraman, ortiq yo'lovchi kutib vaqt yo'qotmayman.</p>
-                <div class="testi-who">
-                    <div class="av">JN</div>
-                    <div>
-                        <div class="nm">Jasur N.</div>
-                        <div class="rt">Haydovchi, 4.9 ★</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Fikrlar</span>
+      <h2>Yo'lovchilar nima deydi</h2>
     </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p>Avtovokzalda soatlab kutish o'rniga, telefonimdan haydovchini tanladim. Mashina haqiqatan ham e'londagidek edi.</p>
+        <div class="testi-who"><div class="av">DM</div><div><div class="nm">Dilnoza M.</div><div class="rt">Toshkent → Samarqand</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p>Narx oldindan aniq ko'rsatilgani uchun yo'lda bahslashish bo'lmadi. Juda qulay.</p>
+        <div class="testi-who"><div class="av">BT</div><div><div class="nm">Bekzod T.</div><div class="rt">Farg'ona → Toshkent</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p>Haydovchi sifatida bo'sh joylarni tezda to'ldiraman, ortiq yo'lovchi kutib vaqt yo'qotmayman.</p>
+        <div class="testi-who"><div class="av">JN</div><div><div class="nm">Jasur N.</div><div class="rt">Haydovchi, 4.9 ★</div></div></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <footer>
-    <div class="wrap">
-        <div class="footer-grid">
-            <div>
-                <div class="footer-logo"><span class="mark"
-                                               style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--orange),var(--orange-deep));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;">Y</span>
-                    <span style="font-family:'Manrope';font-weight:800;color:white;font-size:1.15rem;">Yo'lda</span>
-                </div>
-                <p style="font-size:0.85rem; max-width:280px;">O'zbekiston bo'ylab viloyatlararo yo'lovchi tashish
-                    platformasi.</p>
-            </div>
-            <div>
-                <h4>Xizmat</h4>
-                <a href="02_qidiruv_natijalari.html">Yo'nalish qidirish</a>
-                <a href="05_elon_joylash.html">E'lon joylash</a>
-                <a href="04_profil.html">Profilim</a>
-            </div>
-            <div>
-                <h4>Kompaniya</h4>
-                <a href="#">Biz haqimizda</a>
-                <a href="#">Foydalanish shartlari</a>
-                <a href="#">Maxfiylik siyosati</a>
-            </div>
-            <div>
-                <h4>Aloqa</h4>
-                <a href="#">+998 71 200 00 00</a>
-                <a href="#">support@yolda.uz</a>
-                <a href="#">Telegram bot</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>© 2026 Yo'lda. Barcha huquqlar himoyalangan.</span>
-            <span>O'zbekiston</span>
-        </div>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><span class="mark" style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--orange),var(--orange-deep));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;">Y</span>
+        <span style="font-family:'Manrope';font-weight:800;color:white;font-size:1.15rem;">Yo'lda</span></div>
+        <p style="font-size:0.85rem; max-width:280px;">O'zbekiston bo'ylab viloyatlararo yo'lovchi tashish platformasi.</p>
+      </div>
+      <div>
+        <h4>Xizmat</h4>
+        <a href="02_qidiruv_natijalari.html">Yo'nalish qidirish</a>
+        <a href="05_elon_joylash.html">E'lon joylash</a>
+        <a href="04_profil.html">Profilim</a>
+      </div>
+      <div>
+        <h4>Kompaniya</h4>
+        <a href="#">Biz haqimizda</a>
+        <a href="#">Foydalanish shartlari</a>
+        <a href="#">Maxfiylik siyosati</a>
+      </div>
+      <div>
+        <h4>Aloqa</h4>
+        <a href="#">+998 71 200 00 00</a>
+        <a href="#">support@yolda.uz</a>
+        <a href="#">Telegram bot</a>
+      </div>
     </div>
+    <div class="footer-bottom">
+      <span>© 2026 Yo'lda. Barcha huquqlar himoyalangan.</span>
+      <span>O'zbekiston</span>
+    </div>
+  </div>
 </footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ---------- Toast helper ----------
+  function showToast(msg){
+    let t = document.getElementById('toast');
+    if(!t){
+      t = document.createElement('div');
+      t.id = 'toast';
+      t.className = 'toast';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(()=> t.classList.remove('show'), 2400);
+  }
+
+  // ---------- Language switch ----------
+  document.querySelectorAll('.lang-switch button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.lang-switch button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      showToast(btn.textContent.trim() === 'РУ' ? 'Переключение на русский (демо)' : "O'zbek tili tanlandi");
+    });
+  });
+
+  // ---------- Swap "Qayerdan" / "Qayerga" ----------
+  const fromSelect = document.querySelectorAll('.search-row select')[0];
+  const toSelect = document.querySelectorAll('.search-row select')[1];
+  const swapBtn = document.querySelector('.swap-btn');
+  if(swapBtn){
+    swapBtn.addEventListener('click', ()=>{
+      const tmp = fromSelect.value;
+      fromSelect.value = toSelect.value;
+      toSelect.value = tmp;
+    });
+  }
+
+  // ---------- Search tabs (Yo'lovchiman / Yuk jo'natmoqchiman) ----------
+  document.querySelectorAll('.search-tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.search-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // ---------- Search button -> go to results page with query params ----------
+  const searchBtn = document.querySelector('.search-btn');
+  if(searchBtn){
+    searchBtn.addEventListener('click', ()=>{
+      const from = fromSelect ? fromSelect.value : '';
+      const to = toSelect ? toSelect.value : '';
+      const dateInput = document.querySelector('.search-row input[type="date"]');
+      const date = dateInput ? dateInput.value : '';
+      const params = new URLSearchParams({from, to, date});
+      window.location.href = '02_qidiruv_natijalari.html?' + params.toString();
+    });
+  }
+
+  // ---------- Smooth scroll for in-page anchor links ----------
+  document.querySelectorAll('a[href^="#"]').forEach(link=>{
+    link.addEventListener('click', (e)=>{
+      const target = document.querySelector(link.getAttribute('href'));
+      if(target){
+        e.preventDefault();
+        target.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+</script>
 
 </body>
 </html>

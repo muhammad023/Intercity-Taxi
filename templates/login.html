@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirish | Yo'lda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1A2E35;
+            --ink-soft: #4A5C63;
+            --paper: #FFFFFF;
+            --cream: #F7F4ED;
+            --orange: #FF6B35;
+            --orange-deep: #E85A2A;
+            --sky: #2D9CDB;
+            --sky-deep: #2387BE;
+            --green: #27AE60;
+            --red: #E0524C;
+            --line: #E7E2D6;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --shadow: 0 8px 24px rgba(26, 46, 53, 0.08);
+            --shadow-lift: 0 16px 40px rgba(26, 46, 53, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background: var(--cream);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--sky);
+            outline-offset: 2px;
+        }
+
+        .top-logo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 32px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: 'Manrope';
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .logo .mark {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--orange), var(--orange-deep));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: white;
+            border-radius: 999px;
+            padding: 4px;
+            border: 1px solid var(--line);
+        }
+
+        .lang-switch button {
+            border: none;
+            background: transparent;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+        }
+
+        .lang-switch button.active {
+            background: var(--ink);
+            color: white;
+        }
+
+        .auth-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 20px 80px;
+            min-height: calc(100vh - 100px);
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lift);
+            padding: 44px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.10), transparent 70%);
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn .25s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon-badge {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: #FFE9DD;
+            color: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        h1.title {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .sub {
+            color: var(--ink-soft);
+            font-size: 0.92rem;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        .sub b {
+            color: var(--ink);
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+            margin-bottom: 7px;
+        }
+
+        .field input {
+            width: 100%;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 13px 14px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: var(--ink);
+            background: var(--cream);
+            transition: border-color .15s, background .15s;
+        }
+
+        .field input:focus {
+            border-color: var(--sky);
+            background: white;
+        }
+
+        .field input.invalid {
+            border-color: var(--red);
+        }
+
+        .error-msg {
+            color: var(--red);
+            font-size: 0.8rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        .phone-field {
+            display: flex;
+            gap: 10px;
+        }
+
+        .phone-prefix {
+            background: var(--cream);
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            padding: 13px 14px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--ink-soft);
+            flex-shrink: 0;
+        }
+
+        .otp-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .otp-box {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+            font-family: 'Manrope';
+            background: var(--cream);
+            transition: border-color .15s, background .15s;
+        }
+
+        .otp-box:focus {
+            border-color: var(--sky);
+            background: white;
+        }
+
+        .otp-box.filled {
+            border-color: var(--green);
+            background: white;
+        }
+
+        .otp-resend {
+            font-size: 0.85rem;
+            color: var(--ink-soft);
+            margin-top: 4px;
+            margin-bottom: 22px;
+        }
+
+        .otp-resend .resend-link {
+            color: var(--orange);
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .otp-resend .resend-link.disabled {
+            color: var(--ink-soft);
+            cursor: default;
+            font-weight: 600;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--orange);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 15px;
+            font-weight: 700;
+            font-size: 0.98rem;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.32);
+            transition: background .15s, transform .1s;
+        }
+
+        .btn-submit:hover {
+            background: var(--orange-deep);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        .btn-submit:disabled {
+            background: var(--line);
+            color: var(--ink-soft);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .btn-back {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--ink-soft);
+            font-weight: 700;
+            font-size: 0.86rem;
+            margin-top: 14px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-back:hover {
+            color: var(--ink);
+        }
+
+        .switch-mode {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--ink-soft);
+            margin-top: 24px;
+        }
+
+        .switch-mode b {
+            color: var(--sky);
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #E3F6EA;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 18px;
+        }
+
+        .step-success {
+            text-align: center;
+        }
+
+        .step-success .sub {
+            margin-bottom: 24px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--ink);
+            color: white;
+            padding: 13px 22px;
+            border-radius: 999px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lift);
+            opacity: 0;
+            pointer-events: none;
+            transition: .25s;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 34px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-logo">
+    <a href="01_bosh_sahifa.html" class="logo"><span class="mark">Y</span> Yo'lda</a>
+    <div class="lang-switch">
+        <button class="active" data-lang="uz">UZ</button>
+        <button data-lang="ru">РУ</button>
+    </div>
+</div>
+
+<div class="auth-wrap">
+    <div class="auth-card">
+
+        <!-- STEP 1: phone + email -->
+        <div class="step active" id="step-1">
+            <div class="icon-badge">🔐</div>
+            <h1 class="title">Hisobga kirish</h1>
+            <div class="sub">Telefon raqamingiz va email manzilingizni kiriting — tasdiqlash kodi email orqali
+                yuboriladi.
+            </div>
+
+            <div class="field">
+                <label>Telefon raqami</label>
+                <div class="phone-field">
+                    <div class="phone-prefix">+998</div>
+                    <input type="tel" id="phone-input" placeholder="90 123 45 67" maxlength="9" inputmode="numeric">
+                </div>
+                <div class="error-msg" id="phone-error">To'liq telefon raqamini kiriting (9 raqam)</div>
+            </div>
+
+            <div class="field">
+                <label>Email manzil</label>
+                <input type="email" id="email-input" placeholder="sizning@email.com">
+                <div class="error-msg" id="email-error">To'g'ri email manzil kiriting</div>
+            </div>
+
+            <button class="btn-submit" id="send-code-btn">Tasdiqlash kodini yuborish</button>
+
+            <div class="switch-mode">Hisobingiz yo'qmi? <b><a href="03_royxatdan_otish.html" style="color:var(--sky);">Ro'yxatdan
+                o'tish</a></b></div>
+        </div>
+
+        <!-- STEP 2: OTP entry -->
+        <div class="step" id="step-2">
+            <div class="icon-badge" style="background:#E2F1FB; color:var(--sky);">✉️</div>
+            <h1 class="title">Kodni tasdiqlang</h1>
+            <div class="sub"><b id="email-display">email@example.com</b> manziliga 6 xonali kod yuborildi. Kodni
+                kiriting.
+            </div>
+
+            <div class="field">
+                <label>Tasdiqlash kodi</label>
+                <div class="otp-row">
+                    <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="0">
+                    <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="1">
+                    <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="2">
+                    <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="3">
+                    <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="4">
+                    <input class="otp-box" maxlength="1" inputmode="numeric" data-idx="5">
+                </div>
+                <div class="error-msg" id="otp-error">Kod noto'g'ri. Qaytadan urinib ko'ring.</div>
+                <div class="otp-resend">
+                    Kod kelmadimi? <span class="resend-link disabled" id="resend-link">Qayta yuborish (<span
+                        id="resend-timer">59</span>s)</span>
+                </div>
+            </div>
+
+            <button class="btn-submit" id="verify-btn" disabled>Tasdiqlash va kirish</button>
+            <button class="btn-back" id="back-btn">← Orqaga qaytish</button>
+        </div>
+
+        <!-- STEP 3: success -->
+        <div class="step step-success" id="step-3">
+            <div class="success-icon">✓</div>
+            <h1 class="title">Xush kelibsiz!</h1>
+            <div class="sub">Muvaffaqiyatli tizimga kirdingiz. Hozir profilingizga yo'naltirilasiz.</div>
+            <a href="07_yolovchi_profili.html" class="btn-submit" style="display:block; text-align:center;">Profilimga
+                o'tish</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    // ---------- Helpers ----------
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    function goToStep(id) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    // ---------- Language switch ----------
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showToast(btn.dataset.lang === 'ru' ? 'Язык переключен на русский (демо)' : "Til o'zbek tiliga o'rnatildi");
+        });
+    });
+
+    // ---------- Step 1: validation + send code ----------
+    const phoneInput = document.getElementById('phone-input');
+    const emailInput = document.getElementById('email-input');
+    const phoneError = document.getElementById('phone-error');
+    const emailError = document.getElementById('email-error');
+
+    phoneInput.addEventListener('input', () => {
+        phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 9);
+    });
+
+    function validatePhone() {
+        const digits = phoneInput.value.replace(/\D/g, '');
+        const ok = digits.length === 9;
+        phoneInput.classList.toggle('invalid', !ok);
+        phoneError.classList.toggle('show', !ok);
+        return ok;
+    }
+
+    function validateEmail() {
+        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim());
+        emailInput.classList.toggle('invalid', !ok);
+        emailError.classList.toggle('show', !ok);
+        return ok;
+    }
+
+    document.getElementById('send-code-btn').addEventListener('click', () => {
+        const phoneOk = validatePhone();
+        const emailOk = validateEmail();
+        if (!phoneOk || !emailOk) return;
+
+        document.getElementById('email-display').textContent = emailInput.value.trim();
+        goToStep('step-2');
+        startResendTimer();
+        showToast('Tasdiqlash kodi yuborildi ✓');
+        setTimeout(() => document.querySelector('.otp-box[data-idx="0"]').focus(), 300);
+    });
+
+    // ---------- Step 2: OTP boxes ----------
+    const otpBoxes = Array.from(document.querySelectorAll('.otp-box'));
+    const verifyBtn = document.getElementById('verify-btn');
+    const otpError = document.getElementById('otp-error');
+
+    function checkOtpComplete() {
+        const complete = otpBoxes.every(b => b.value.length === 1);
+        verifyBtn.disabled = !complete;
+        return complete;
+    }
+
+    otpBoxes.forEach((box, i) => {
+        box.addEventListener('input', () => {
+            box.value = box.value.replace(/\D/g, '').slice(0, 1);
+            box.classList.toggle('filled', box.value.length === 1);
+            otpError.classList.remove('show');
+            if (box.value && i < otpBoxes.length - 1) {
+                otpBoxes[i + 1].focus();
+            }
+            checkOtpComplete();
+        });
+        box.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !box.value && i > 0) {
+                otpBoxes[i - 1].focus();
+            }
+        });
+        box.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+            text.split('').forEach((ch, idx) => {
+                if (otpBoxes[idx]) {
+                    otpBoxes[idx].value = ch;
+                    otpBoxes[idx].classList.add('filled');
+                }
+            });
+            checkOtpComplete();
+            if (text.length === 6) otpBoxes[5].focus();
+        });
+    });
+
+    // ---------- Resend timer ----------
+    let resendInterval;
+
+    function startResendTimer() {
+        let seconds = 59;
+        const link = document.getElementById('resend-link');
+        const timerSpan = document.getElementById('resend-timer');
+        link.classList.add('disabled');
+        clearInterval(resendInterval);
+        resendInterval = setInterval(() => {
+            seconds--;
+            timerSpan.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(resendInterval);
+                link.innerHTML = 'Kodni qayta yuborish';
+                link.classList.remove('disabled');
+                link.onclick = () => {
+                    showToast('Yangi kod yuborildi ✓');
+                    otpBoxes.forEach(b => {
+                        b.value = '';
+                        b.classList.remove('filled');
+                    });
+                    checkOtpComplete();
+                    otpBoxes[0].focus();
+                    startResendTimer();
+                };
+            }
+        }, 1000);
+    }
+
+    // ---------- Verify ----------
+    verifyBtn.addEventListener('click', () => {
+        if (!checkOtpComplete()) return;
+        const code = otpBoxes.map(b => b.value).join('');
+        // Demo: any 6-digit code is accepted. In production this calls the backend OTP-verify endpoint.
+        if (code.length === 6) {
+            otpError.classList.remove('show');
+            clearInterval(resendInterval);
+            goToStep('step-3');
+        } else {
+            otpError.classList.add('show');
+        }
+    });
+
+    document.getElementById('back-btn').addEventListener('click', () => {
+        clearInterval(resendInterval);
+        goToStep('step-1');
+    });
+
+    // Enter key submits current step
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter') return;
+        if (document.getElementById('step-1').classList.contains('active')) {
+            document.getElementById('send-code-btn').click();
+        } else if (document.getElementById('step-2').classList.contains('active')) {
+            if (!verifyBtn.disabled) verifyBtn.click();
+        }
+    });
+</script>
+
+</body>
+</html>

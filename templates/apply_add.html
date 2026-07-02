@@ -534,6 +534,79 @@
                 position: static;
             }
         }
+
+        .success-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 46, 53, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 20px;
+        }
+
+        .success-overlay.show {
+            display: flex;
+        }
+
+        .success-box {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-lift);
+        }
+
+        .success-ico {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #E3F6EA;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 18px;
+        }
+
+        .success-box h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .success-box p {
+            color: var(--ink-soft);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--ink);
+            color: white;
+            padding: 13px 22px;
+            border-radius: 999px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lift);
+            opacity: 0;
+            pointer-events: none;
+            transition: .25s;
+            z-index: 100;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -574,16 +647,16 @@
 
                 <div class="route-visual">
                     <span class="pin" style="background:var(--ink);"></span>
-                    <span class="city">Toshkent</span>
+                    <span class="city" id="route-from-display">Toshkent</span>
                     <span class="road-divider"></span>
-                    <span class="city">Samarqand</span>
+                    <span class="city" id="route-to-display">Samarqand</span>
                     <span class="pin" style="background:var(--sky);"></span>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
                         <label>Qayerdan</label>
-                        <select>
+                        <select id="from-select">
                             <option>Toshkent</option>
                             <option>Samarqand</option>
                             <option>Buxoro</option>
@@ -591,7 +664,7 @@
                     </div>
                     <div class="field">
                         <label>Qayerga</label>
-                        <select>
+                        <select id="to-select">
                             <option>Samarqand</option>
                             <option>Toshkent</option>
                             <option>Andijon</option>
@@ -606,21 +679,21 @@
 
                 <div class="field">
                     <label>Takrorlanish turi</label>
-                    <div class="frequency-tabs">
-                        <button class="active">Bugun</button>
-                        <button>Ertaga</button>
-                        <button>Muntazam</button>
+                    <div class="frequency-tabs" id="frequency-tabs">
+                        <button class="active" data-val="Bugun">Bugun</button>
+                        <button data-val="Ertaga">Ertaga</button>
+                        <button data-val="Muntazam">Muntazam</button>
                     </div>
                 </div>
 
                 <div class="field-row">
                     <div class="field">
                         <label>Sana</label>
-                        <input type="date">
+                        <input type="date" id="date-input">
                     </div>
                     <div class="field">
                         <label>Ketish vaqti</label>
-                        <input type="time">
+                        <input type="time" id="time-input" value="09:30">
                     </div>
                 </div>
             </div>
@@ -631,15 +704,15 @@
                 <div class="field">
                     <label>Bo'sh o'rindiqlar soni</label>
                     <div class="seat-counter">
-                        <button>−</button>
-                        <span class="seat-num">3</span>
-                        <button>+</button>
+                        <button id="seat-minus">−</button>
+                        <span class="seat-num" id="seat-num">3</span>
+                        <button id="seat-plus">+</button>
                     </div>
                 </div>
 
                 <div class="field">
                     <label>Narx (1 o'rindiq uchun, so'm)</label>
-                    <input type="number" placeholder="85000">
+                    <input type="number" id="price-input" placeholder="85000" value="85000">
                 </div>
             </div>
 
@@ -649,7 +722,7 @@
                 <div class="field-row">
                     <div class="field">
                         <label>Mashina turi</label>
-                        <select>
+                        <select id="car-type-select">
                             <option>Sedan</option>
                             <option>Monovolume</option>
                             <option>Universal</option>
@@ -657,7 +730,7 @@
                     </div>
                     <div class="field">
                         <label>Mashina modeli</label>
-                        <input type="text" placeholder="Chevrolet Cobalt">
+                        <input type="text" id="car-model-input" placeholder="Chevrolet Cobalt" value="Chevrolet Cobalt">
                     </div>
                 </div>
 
@@ -666,7 +739,8 @@
                         <div class="label-txt">Klimat-kontrol</div>
                         <div class="label-sub">Mashinada konditsioner ishlaydi</div>
                     </div>
-                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                    <label class="switch"><input type="checkbox" id="ac-toggle" checked><span
+                            class="slider"></span></label>
                 </div>
                 <div class="toggle-row">
                     <div>
@@ -693,25 +767,183 @@
                         <div class="avatar">JN</div>
                         <div>
                             <div class="name">Jasur Normatov</div>
-                            <div class="car">Chevrolet Cobalt · Sedan</div>
+                            <div class="car" id="preview-car">Chevrolet Cobalt · Sedan</div>
                         </div>
                     </div>
-                    <div class="preview-route">Toshkent <span class="road-divider"></span> Samarqand</div>
+                    <div class="preview-route"><span id="preview-from">Toshkent</span> <span
+                            class="road-divider"></span> <span id="preview-to">Samarqand</span></div>
                     <div class="preview-meta">
-                        <span>09:30 · Bugun</span>
-                        <span>3 joy bo'sh</span>
+                        <span id="preview-time">09:30 · Bugun</span>
+                        <span id="preview-seats">3 joy bo'sh</span>
                     </div>
-                    <div class="preview-price">85 000 so'm <span
+                    <div class="preview-price"><span id="preview-price">85 000</span> so'm <span
                             style="font-size:0.7rem; color:var(--ink-soft); font-weight:500;">/ o'rin</span></div>
                 </div>
 
-                <button class="publish-btn">E'lonni joylash</button>
-                <button class="draft-btn">Qoralama sifatida saqlash</button>
+                <button class="publish-btn" id="publish-btn">E'lonni joylash</button>
+                <button class="draft-btn" id="draft-btn">Qoralama sifatida saqlash</button>
             </div>
         </div>
     </div>
 
 </div>
+
+<!-- Success overlay -->
+<div class="success-overlay" id="success-overlay">
+    <div class="success-box">
+        <div class="success-ico">✓</div>
+        <h2>E'lon joylandi!</h2>
+        <p>Yo'nalishingiz endi qidiruv natijalarida ko'rinadi. Yo'lovchilar so'rov yuborganda sizga xabar beramiz.</p>
+        <a href="04_profil.html" class="publish-btn" style="display:block; text-align:center; margin-top:8px;">Profilimga
+            qaytish</a>
+        <button class="draft-btn" id="add-another-btn">Yana bitta e'lon qo'shish</button>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+    }
+
+    // ---------- Language switch ----------
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+
+    // ---------- Route select -> updates visual + preview ----------
+    const fromSelect = document.getElementById('from-select');
+    const toSelect = document.getElementById('to-select');
+    const routeFromDisplay = document.getElementById('route-from-display');
+    const routeToDisplay = document.getElementById('route-to-display');
+    const previewFrom = document.getElementById('preview-from');
+    const previewTo = document.getElementById('preview-to');
+
+    function updateRoute() {
+        routeFromDisplay.textContent = fromSelect.value;
+        routeToDisplay.textContent = toSelect.value;
+        previewFrom.textContent = fromSelect.value;
+        previewTo.textContent = toSelect.value;
+    }
+
+    fromSelect.addEventListener('change', updateRoute);
+    toSelect.addEventListener('change', updateRoute);
+
+    // ---------- Frequency tabs ----------
+    let currentFrequency = 'Bugun';
+    document.querySelectorAll('#frequency-tabs button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#frequency-tabs button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFrequency = btn.dataset.val;
+            updatePreviewTime();
+        });
+    });
+
+    // ---------- Date / time -> preview ----------
+    const dateInput = document.getElementById('date-input');
+    const timeInput = document.getElementById('time-input');
+    const previewTime = document.getElementById('preview-time');
+
+    function updatePreviewTime() {
+        const time = timeInput.value || '09:30';
+        previewTime.textContent = time + ' · ' + currentFrequency;
+    }
+
+    dateInput.addEventListener('change', updatePreviewTime);
+    timeInput.addEventListener('input', updatePreviewTime);
+
+    // ---------- Seat counter ----------
+    let seatCount = 3;
+    const seatNumEl = document.getElementById('seat-num');
+    const previewSeats = document.getElementById('preview-seats');
+
+    function updateSeatDisplay() {
+        seatNumEl.textContent = seatCount;
+        previewSeats.textContent = seatCount + " joy bo'sh";
+    }
+
+    document.getElementById('seat-plus').addEventListener('click', () => {
+        if (seatCount < 8) {
+            seatCount++;
+            updateSeatDisplay();
+        }
+    });
+    document.getElementById('seat-minus').addEventListener('click', () => {
+        if (seatCount > 1) {
+            seatCount--;
+            updateSeatDisplay();
+        } else {
+            showToast("Kamida 1 ta o'rindiq bo'lishi kerak");
+        }
+    });
+
+    // ---------- Price -> preview ----------
+    const priceInput = document.getElementById('price-input');
+    const previewPrice = document.getElementById('preview-price');
+    priceInput.addEventListener('input', () => {
+        const val = parseInt(priceInput.value) || 0;
+        previewPrice.textContent = val.toLocaleString('uz-UZ');
+    });
+
+    // ---------- Car type / model / AC -> preview ----------
+    const carTypeSelect = document.getElementById('car-type-select');
+    const carModelInput = document.getElementById('car-model-input');
+    const acToggle = document.getElementById('ac-toggle');
+    const previewCar = document.getElementById('preview-car');
+
+    function updatePreviewCar() {
+        const model = carModelInput.value.trim() || 'Mashina modeli';
+        previewCar.textContent = model + ' · ' + carTypeSelect.value + (acToggle.checked ? ' · ❄️' : '');
+    }
+
+    carTypeSelect.addEventListener('change', updatePreviewCar);
+    carModelInput.addEventListener('input', updatePreviewCar);
+    acToggle.addEventListener('change', updatePreviewCar);
+
+    // ---------- Publish ----------
+    document.getElementById('publish-btn').addEventListener('click', () => {
+        if (!priceInput.value || parseInt(priceInput.value) <= 0) {
+            showToast("Narxni to'g'ri kiriting");
+            return;
+        }
+        if (!carModelInput.value.trim()) {
+            showToast('Mashina modelini kiriting');
+            return;
+        }
+        document.getElementById('success-overlay').classList.add('show');
+    });
+
+    document.getElementById('draft-btn').addEventListener('click', () => {
+        showToast("E'lon qoralama sifatida saqlandi ✓");
+    });
+
+    document.getElementById('add-another-btn').addEventListener('click', () => {
+        document.getElementById('success-overlay').classList.remove('show');
+        showToast('Yangi e\'lon uchun forma tozalandi');
+        priceInput.value = '';
+        previewPrice.textContent = '0';
+        carModelInput.value = '';
+        updatePreviewCar();
+        seatCount = 1;
+        updateSeatDisplay();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    // Initialize previews on load
+    updateRoute();
+    updatePreviewTime();
+    updateSeatDisplay();
+    updatePreviewCar();
+</script>
 
 </body>
 </html>
